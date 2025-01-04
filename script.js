@@ -1,37 +1,57 @@
 const TRANSLATION_MESSAGES = {
     hungry: {
-        meow1: ["My bowl is tragically empty!", 85],
-        meow2: ["Feed me, I'm wasting away!", 70],
-        meow3: ["Is that food? For me?", 60],
+        meow1: { text: "My bowl is tragically empty!", confidence: 85, frequencyRange: [200, 400], intensity: 0.7, duration: 0.5 },
+        meow2: { text: "Feed me, I'm wasting away!", confidence: 70, frequencyRange: [250, 450], intensity: 0.8, duration: 0.8 },
+        meow3: { text: "Is that food? For me?", confidence: 60, frequencyRange: [300, 500], intensity: 0.5, duration: 0.3 },
+        meow4: { text: "I'm famished! Where is my dinner?", confidence: 90, frequencyRange: [350, 550], intensity: 0.9, duration: 0.7 },
+        meow5: { text: "A little nibble? Please?", confidence: 50, frequencyRange: [300, 500], intensity: 0.4, duration: 0.6 },
     },
     affection: {
-        purr1: ["Purrrr... you may pet me.", 90],
-        purr2: ["I tolerate your affection.", 75],
-        purr3: ["Head scratches are... acceptable.", 65],
+        purr1: { text: "Purrrr... you may pet me.", confidence: 90, frequencyRange: [25, 150], intensity: 0.3, duration: 2 },
+        purr2: { text: "I tolerate your affection.", confidence: 75, frequencyRange: [50, 120], intensity: 0.4, duration: 1.5 },
+        purr3: { text: "Head scratches are... acceptable.", confidence: 65, frequencyRange: [60, 130], intensity: 0.5, duration: 1.2 },
+        purr4: { text: "More chin rubs... please?", confidence: 80, frequencyRange: [30, 100], intensity: 0.4, duration: 1.3 },
+        purr5: { text: "I suppose you may sit near me.", confidence: 50, frequencyRange: [70, 140], intensity: 0.3, duration: 1.1 },
     },
     play: {
-        meow1: ["The red dot! Engage!", 80],
-        meow2: ["This toy mouse is my mortal enemy!", 70],
-        meow3: ["Play with me, human!", 60],
+        meow1: { text: "The red dot! Engage!", confidence: 80, frequencyRange: [500, 700], intensity: 0.7, duration: 0.5 },
+        meow2: { text: "This toy mouse is my mortal enemy!", confidence: 70, frequencyRange: [600, 800], intensity: 0.6, duration: 0.7 },
+        meow3: { text: "Play with me, human!", confidence: 60, frequencyRange: [550, 750], intensity: 0.8, duration: 0.6 },
+        meow4: { text: "Time for some zooming around!", confidence: 90, frequencyRange: [650, 850], intensity: 0.9, duration: 0.4 },
+        meow5: { text: "I must catch the stringy thing!", confidence: 80, frequencyRange: [450, 650], intensity: 0.7, duration: 0.5 },
     },
     demand: {
-        meow1: ["Open the door, minion!", 95],
-        meow2: ["I require your immediate attention!", 80],
-        meow3: ["Why is this door closed?!", 65],
+        meow1: { text: "Open the door, minion!", confidence: 95, frequencyRange: [800, 1000], intensity: 0.9, duration: 0.5 },
+        meow2: { text: "I require your immediate attention!", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.7 },
+        meow3: { text: "Why is this door closed?!", confidence: 65, frequencyRange: [700, 900], intensity: 0.7, duration: 0.6 },
+        meow4: { text: "I'm waiting for my request to be fulfilled!", confidence: 90, frequencyRange: [850, 1050], intensity: 0.9, duration: 0.8 },
+        meow5: { text: "Hey, I said OPEN it!", confidence: 90, frequencyRange: [750, 950], intensity: 0.9, duration: 0.4 },
     },
     warning: {
-        hiss1: ["Hssss! Back away slowly.", 90],
-        hiss2: ["I am displeased.", 80],
-        hiss3: ["That is MY spot!", 70],
+        hiss1: { text: "Hssss! Back away slowly.", confidence: 90, frequencyRange: [1000, 1200], intensity: 0.9, duration: 0.3 },
+        hiss2: { text: "I am displeased.", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.5 },
+        hiss3: { text: "That is MY spot!", confidence: 70, frequencyRange: [1100, 1300], intensity: 0.7, duration: 0.6 },
+        hiss4: { text: "You dare come closer?", confidence: 85, frequencyRange: [1050, 1250], intensity: 0.85, duration: 0.4 },
+        hiss5: { text: "Leave me alone!!", confidence: 95, frequencyRange: [950, 1150], intensity: 0.95, duration: 0.4 }
     },
     default: {
-        meow1: ["Mrow? (Context unclear)", 50],
+        meow1: { text: "Mrow? (Context unclear)", confidence: 50, frequencyRange: [400, 600], intensity: 0.4, duration: 0.4 },
     },
 };
 
 const CAT_FACTS = [
-    "A cat's purr vibrates at a frequency of 25 to 150 Hertz.",
-    "Cats can make over 100 different vocalizations.",
+    "A cat's purr vibrates at a frequency of 25 to 150 Hertz and can aid in healing.",
+    "Cats can make over 100 different vocalizations and use meows to communicate with humans, not other cats.",
+    "The average cat sleeps around 12-16 hours per day, conserving energy for hunting.",
+    "Cats have a third eyelid that helps to keep their eyes moist and protected.",
+    "A cat can jump up to six times its height, thanks to its powerful leg muscles.",
+    "Cats can rotate their ears 180 degrees, allowing them to locate sounds with precision.",
+    "Cats have a special reflective layer behind their retinas called the tapetum lucidum which helps them see in low light conditions.",
+    "The nose print of a cat is unique, much like a human fingerprint.",
+    "Cats use their whiskers to navigate and sense changes in the environment.",
+    "Domestic cats have been living alongside humans for over 9,500 years.",
+    "Some cats have a genetic mutation that causes them to be born with extra toes, known as polydactyly.",
+    "Cats often knead when they're happy, a behavior that stems from kittenhood when they knead their mother's belly to stimulate milk production.",
 ];
 
 const LISTENING_MESSAGES = [
