@@ -1,5 +1,5 @@
-/* --- CSS Variables --- */
-:root {
+ /* --- CSS Variables --- */
+ :root {
     --color-background: #f8f0e3;
     --color-text: #333;
     --color-header-bg: #a8dadc;
@@ -30,10 +30,10 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-    overflow-x: hidden; /* Prevent horizontal overflow */
+    overflow-x: hidden;
 }
 
-html{
+html {
     overflow-x: hidden;
 }
 
@@ -64,11 +64,11 @@ main {
     align-items: center;
     justify-content: center;
     padding: var(--spacing-medium);
-    width: 90%; /* Default width for larger screens */
-    max-width: 1200px; /* Maximum width to prevent excessive width on very large screens*/
+    width: 90%;
+    max-width: 1200px;
 }
 
-.blog-header-container{
+.blog-header-container {
     width: 100%;
     overflow: hidden;
     height: 50px;
@@ -83,19 +83,25 @@ main {
     animation: scrollHeader 18s linear infinite;
 }
 
-.blog-header a{
+.blog-header a {
     padding: var(--spacing-small);
     text-decoration: none;
     color: var(--color-text);
     font-weight: bold;
     transition: background-color 0.3s ease;
 }
-.blog-header a:hover{
+
+.blog-header a:hover {
     background-color: var(--color-light-grey);
 }
+
 @keyframes scrollHeader {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
 
 .record-container {
@@ -206,6 +212,14 @@ main {
     opacity: 1;
 }
 
+#analysisMessage.animate {
+   animation: fadeInOut 1s infinite;
+}
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1;}
+}
+
 #translationOutput {
     padding: var(--spacing-medium);
     background-color: #fff;
@@ -271,9 +285,9 @@ footer {
 
 /* --- Blog Specific styles --- */
 .blog-main {
-    width: 95%; /* Adjusted for smaller screens by default */
+    width: 95%;
     padding-top: var(--spacing-medium);
-    max-width: 1200px;  /* Max width on bigger screens */
+    max-width: 1200px;
 }
 
 .blog-posts {
@@ -290,38 +304,42 @@ footer {
     box-shadow: var(--box-shadow-medium);
     transition: background-color 0.2s ease;
 }
-.blog-post:hover{
+
+.blog-post:hover {
     background-color: var(--color-light-grey);
 }
-.blog-post h2{
+
+.blog-post h2 {
     margin-bottom: var(--spacing-small);
 }
-.blog-post a{
+
+.blog-post a {
     text-decoration: none;
     color: inherit;
 }
 
-.blog-post-content{
+.blog-post-content {
     padding: var(--spacing-medium);
     background-color: #fff;
     border-radius: 10px;
     box-shadow: var(--box-shadow-medium);
 }
 
-.blog-post-content img{
-    max-width: 100%; /* keep image within container */
+.blog-post-content img {
+    max-width: 100%;
     height: auto;
 }
-
 
 .blog-link {
     margin-top: var(--spacing-medium);
 }
+
 .blog-link a {
     text-decoration: none;
     color: var(--color-primary);
     font-weight: bold;
 }
+
 /* --- Media Queries (Responsiveness) --- */
 @media (max-width: 768px) { /* Tablets and smaller */
     main {
@@ -331,12 +349,14 @@ footer {
     .blog-main {
         width: 95%;
     }
-    .blog-header-container{
+
+    .blog-header-container {
         height: 70px;
     }
+
     .blog-header a {
-        padding: 5px; /* adjust header padding for smaller screens */
-        font-size: 0.9em
+        padding: 5px;
+        font-size: 0.9em;
     }
 }
 
