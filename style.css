@@ -1,4 +1,4 @@
- /* --- CSS Variables --- */
+/* --- CSS Variables --- */
  :root {
     --color-background: #f8f0e3;
     --color-text: #333;
@@ -108,6 +108,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+     position: relative; /* For positioning aura */
 }
 
 .record-button {
@@ -123,7 +124,9 @@ main {
     align-items: center;
     justify-content: center;
     box-shadow: var(--box-shadow-large);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease;
+      position: relative; /* For positioning aura */
+      z-index: 1; /* Ensure button is above the aura */
 }
 
 .record-button:hover {
@@ -198,6 +201,7 @@ main {
     display: flex;
     align-items: center;
     flex-direction: column;
+         position: relative; /* For positioning aura */
 }
 
 #analysisMessage {
@@ -253,6 +257,17 @@ main {
 .meow-type-placeholder {
     font-size: 2em;
     color: var(--color-dark-grey);
+     transition: background-color 0.3s ease;
+      position: relative;
+       z-index: 1; /* Ensure text is above the aura */
+    padding: 5px;
+    margin: 5px;
+        border-radius: 10px;
+    opacity: 0;
+        transition: opacity 0.5s ease-out;
+}
+.meow-type-placeholder.show{
+    opacity: 1;
 }
 
 #catFact {
@@ -396,7 +411,6 @@ footer {
     border-left: 60px solid transparent;
     border-right: 60px solid transparent;
     border-bottom: 120px solid rgba(255, 255, 255, 0.2);
-
 }
 .aura-shape.square {
      width: 120px;
