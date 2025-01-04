@@ -404,41 +404,4 @@ footer {
         font-size: 1.5em;
     }
 }
-    .aura-shape {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border-radius: 10px;
-        pointer-events: none; /* Ensure it doesn't interfere with click events */
-    }
-    .aura-shape.circle {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        background-color: rgba(255, 255, 255, 0.2);
-    }
-    .aura-shape.star {
-        width: 120px;
-        height: 120px;
-        background: rgba(255, 255, 255, 0.2);
-        clip-path: polygon(50% 0%, 63% 38%, 100% 38%, 69% 59%, 82% 100%, 50% 75%, 18% 100%, 31% 59%, 0 38%, 37% 38%);
-    }
-    .aura-shape.triangle {
-        width: 0;
-        height: 0;
-        border-left: 60px solid transparent;
-        border-right: 60px solid transparent;
-        border-bottom: 120px solid rgba(255, 255, 255, 0.2);
-    }
-    .aura-shape.square {
-        width: 120px;
-        height: 120px;
-        background-color: rgba(255, 255, 255, 0.2);
-    }
-    @keyframes pulse {
-        0% { transform: translate(-50%, -50%) scale(1); }
-        50% { transform: translate(-50%, -50%) scale(1.2); }
-        100% { transform: translate(-50%, -50%) scale(1); }
-    }
- }
+    
