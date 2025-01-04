@@ -38,9 +38,8 @@ const TRANSLATION_MESSAGES = {
         meow1: { text: "Mrow? (Context unclear)", confidence: 50, frequencyRange: [400, 600], intensity: 0.4, duration: 0.4 },
     },
 };
-
 const CAT_FACTS = [
-    "A cat's purr vibrates at a frequency of 25 to 150 Hertz and can aid in healing.",
+  "A cat's purr vibrates at a frequency of 25 to 150 Hertz and can aid in healing.",
     "Cats can make over 100 different vocalizations and use meows to communicate with humans, not other cats.",
     "The average cat sleeps around 12-16 hours per day, conserving energy for hunting.",
     "Cats have a third eyelid that helps to keep their eyes moist and protected.",
@@ -72,8 +71,13 @@ const confidenceLevelDiv = document.getElementById("confidenceLevel");
 const analysisMessageDiv = document.getElementById("analysisMessage");
 const waveformCanvas = document.getElementById("waveformCanvas");
 const canvasCtx = waveformCanvas.getContext('2d');
-const blogHeader = document.getElementById('blogHeader');
-
+const visualCanvas = document.getElementById("visualCanvas");
+const visualCtx = visualCanvas.getContext('2d');
+const settingsBtn = document.getElementById('settingsBtn');
+const settingsOverlay = document.getElementById('settings');
+const closeSettingsBtn = document.getElementById('closeSettings');
+const uiThemeSelect = document.getElementById('uiTheme');
+const container = document.querySelector('.container');
 
 let listeningMessageIndex = 0;
 let listeningInterval;
@@ -83,27 +87,62 @@ let audioStream;
 let audioContext;
 let analyser;
 let dataArray;
+let uiTheme = localStorage.getItem('uiTheme') || 'calm'; // Load theme from storage or default
 
-const emotionColors = {
-    hungry: 'rgb(255, 165, 0)',      // Orange
-    affection: 'rgb(255, 192, 203)', // Pink
-    play: 'rgb(0, 128, 0)',          // Green
-    demand: 'rgb(173, 216, 230)',      // Light Blue
-    warning: 'rgb(255, 0, 0)',        // Red
-    default: 'rgb(128, 128, 128)',    // Grey
-};
-const emotionShapes = {
-    hungry: 'circle',
-    affection: 'circle',
-    play: 'star',
-    demand: 'square',
-    warning: 'triangle',
-    default: 'none',
+// Apply theme on initial load
+applyTheme(uiTheme);
+recordBtn.addEventListener("click", startRecording);
+settingsBtn.addEventListener('click', openSettings);
+closeSettingsBtn.addEventListener('click', closeSettings);
+uiThemeSelect.value = uiTheme
+uiThemeSelect.addEventListener('change', handleThemeChange)
+function handleThemeChange(e) {
+  const selectedTheme = e.target.value;
+  localStorage.setItem('uiTheme',selectedTheme)
+  applyTheme(selectedTheme);
+}
+function openSettings() {
+    settingsOverlay.classList.remove('hidden');
 }
 
+function closeSettings() {
+    settingsOverlay.classList.add('hidden');
+}
 
-recordBtn.addEventListener("click", startRecording);
+function applyTheme(theme) {
+    switch (theme) {
+         case 'vibrant':
+            container.style.backgroundColor = "#ffd700";
+           visualCanvas.style.borderColor ="#000000"
+            waveformCanvas.style.borderColor = "#000000"
+            recordBtn.style.backgroundColor ="#ff69b4"
+            recordBtn.style.color = "#000000"
+          settingsBtn.style.backgroundColor ="#ff69b4"
+              settingsBtn.style.color = "#000000"
+             break;
 
+        case 'abstract':
+            container.style.backgroundColor = "#6053c4";
+             visualCanvas.style.borderColor ="#ffffff"
+                waveformCanvas.style.borderColor = "#ffffff"
+             recordBtn.style.backgroundColor ="#d98cb6"
+              recordBtn.style.color = "#ffffff"
+             settingsBtn.style.backgroundColor ="#d98cb6"
+              settingsBtn.style.color = "#ffffff"
+
+            break;
+           case 'calm':
+        default:
+            container.style.backgroundColor = "#ffffff";
+             visualCanvas.style.borderColor ="#ddd"
+              waveformCanvas.style.borderColor = "#ddd"
+            recordBtn.style.backgroundColor ="#4caf50"
+            recordBtn.style.color = "#ffffff"
+            settingsBtn.style.backgroundColor ="#6870f2"
+                settingsBtn.style.color = "#ffffff"
+
+    }
+}
 
 async function startRecording() {
     recordBtn.classList.add("recording");
@@ -153,14 +192,20 @@ function startAnalysis() {
     analysisMessageDiv.classList.add("show");
     waveformCanvas.classList.add("active");
     drawWaveform(); // Start drawing the waveform
+    visualCanvas.classList.add("active");
+     visualCanvas.width = visualCanvas.offsetWidth;
+     visualCanvas.height = visualCanvas.offsetHeight
+        startVisuals();
     setTimeout(stopRecording, 2000);
 
 }
 function stopRecording() {
     recordBtn.classList.remove("recording");
-    waveformCanvas.classList.remove("active");
+      waveformCanvas.classList.remove("active");
     analysisMessageDiv.classList.remove("show");
+       visualCanvas.classList.remove("active");
     cancelAnimationFrame(animationFrameId);
+     visualCtx.clearRect(0, 0, visualCanvas.width, visualCanvas.height);
     canvasCtx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height)
     // Stop audio tracks
     if (audioStream) {
@@ -185,16 +230,13 @@ function cycleListeningMessages() {
 
 
 function displayTranslation() {
-    const audioIntensity = calculateAudioIntensity(); // Get the average audio data
-    const assembledPhrase = assembleDynamicPhrase(audioIntensity);
-    const dominantEmotion = getDominantEmotion(assembledPhrase);
-    translationOutput.textContent = assembledPhrase;
-    confidenceLevelDiv.textContent = `Mood Level: ${Math.round(audioIntensity * 100)}%`; // Display intensity
-    translationOutput.classList.add("show");
-     confidenceLevelDiv.classList.add("show");
-    setAura(dominantEmotion, audioIntensity);
-
-    speakTranslation(assembledPhrase, audioIntensity); // Pass in the audio intensity to manipulate sound
+  const audioIntensity = calculateAudioIntensity(); // Get the average audio data
+  const assembledPhrase = assembleDynamicPhrase(audioIntensity);
+  translationOutput.textContent = assembledPhrase;
+  confidenceLevelDiv.textContent = `Mood Level: ${Math.round(audioIntensity * 100)}%`; // Display intensity
+  translationOutput.classList.add("show");
+  confidenceLevelDiv.classList.add("show");
+  speakTranslation(assembledPhrase, audioIntensity); // Pass in the audio intensity to manipulate sound
 
 }
 function calculateAudioIntensity() {
@@ -208,61 +250,20 @@ function calculateAudioIntensity() {
 
 function assembleDynamicPhrase(intensity) {
   const categories = Object.keys(TRANSLATION_MESSAGES).filter(key => key !== 'default');
-    const numberOfParts = Math.max(1, Math.min(3, Math.round(intensity * 3))); // Adjust as needed for your desired mix
-    const parts = [];
-    for (let i = 0; i < numberOfParts; i++) {
-        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-        const messages = Object.values(TRANSLATION_MESSAGES[randomCategory]);
-        if(messages && messages.length > 0){
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-              parts.push(randomMessage.text);
-          }
+  const numberOfParts = Math.max(1, Math.min(3, Math.round(intensity * 3))); // Adjust as needed for your desired mix
+  const parts = [];
+  for (let i = 0; i < numberOfParts; i++) {
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      const messages = Object.values(TRANSLATION_MESSAGES[randomCategory]);
+      if(messages && messages.length > 0){
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+          parts.push(randomMessage.text);
+      }
+
     }
     return parts.join(' ');
 }
 
-function getDominantEmotion(phrase) {
-    const categories = Object.keys(TRANSLATION_MESSAGES).filter(key => key !== 'default');
-    const categoryCounts = {};
-    for(const category of categories) {
-      categoryCounts[category] = 0;
-    }
-    for (const category of categories) {
-        for(const key of Object.keys(TRANSLATION_MESSAGES[category])){
-          if(phrase.includes(TRANSLATION_MESSAGES[category][key].text)) {
-              categoryCounts[category]++;
-          }
-        }
-
-    }
-      let dominantEmotion = "default";
-    let maxCount = 0;
-    for (const category of categories) {
-        if (categoryCounts[category] > maxCount) {
-           maxCount = categoryCounts[category];
-           dominantEmotion = category;
-        }
-    }
-  return dominantEmotion
-}
-function setAura(emotion, intensity) {
-  const translationArea = document.querySelector(".translation-area");
-  translationArea.style.backgroundColor = emotionColors[emotion] || emotionColors.default;
-    //remove existing shape
-    const existingShape = document.querySelector(".aura-shape")
-    if(existingShape){
-        existingShape.remove();
-    }
-  if(emotionShapes[emotion] && emotionShapes[emotion] !== 'none') {
-       const shape = document.createElement("div");
-    shape.classList.add("aura-shape");
-    shape.classList.add(emotionShapes[emotion]);
-    shape.style.opacity = 0.7;
-       shape.style.animation = `pulse ${Math.min(0.75 + (intensity * 0.75) ,2)}s ease-in-out infinite`;
-       translationArea.appendChild(shape);
-    }
-
-}
 function displayCatFact() {
     const randomIndex = Math.floor(Math.random() * CAT_FACTS.length);
     catFactDiv.textContent = "Fun Cat Fact: " + CAT_FACTS[randomIndex];
@@ -290,14 +291,97 @@ function drawWaveform() {
     }
     animate();
 }
-
 // Text to Speech function with audio manipulation
 function speakTranslation(text, intensity) {
     const utterance = new SpeechSynthesisUtterance(text);
-    // Optional:  set voice, rate, pitch etc here - feel free to experiment
-    // utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'your_preferred_voice_name') //get voices
-
     utterance.rate = 1 + (intensity * 0.5);  // Control speed
     utterance.pitch = 1 + (intensity * 0.5); // Control pitch
     speechSynthesis.speak(utterance);
 }
+function startVisuals() {
+  let shapeSize = 10;
+  let shapeColor = 'white';
+  let rotationSpeed = 0.01;
+  let angle = 0;
+
+    function animateVisuals() {
+    analyser.getByteFrequencyData(dataArray);
+    const averageFrequency = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+        const audioIntensity = calculateAudioIntensity();
+        const selectedContext = contextSelect && contextSelect.value ? contextSelect.value : 'default';
+        visualCtx.clearRect(0, 0, visualCanvas.width, visualCanvas.height);
+      visualCtx.save();
+       // Center the rotation point
+    visualCtx.translate(visualCanvas.width / 2, visualCanvas.height / 2);
+    visualCtx.rotate(angle);
+      visualCtx.translate(-visualCanvas.width / 2, -visualCanvas.height / 2);
+     // Draw visual elements based on context and theme
+       switch (uiTheme) {
+        case 'vibrant':
+            shapeColor = `hsl(${averageFrequency}, 100%, 50%)`;
+            shapeSize = 20 + (audioIntensity * 50);
+            rotationSpeed = 0.005 + (audioIntensity * 0.02);
+               drawVibrantPattern(visualCtx, shapeSize, shapeColor,visualCanvas.width, visualCanvas.height);
+                break;
+        case 'abstract':
+             shapeColor =  `rgb(${Math.round(255 - (audioIntensity*255))}, ${Math.round(100 + (audioIntensity * 155))}, ${Math.round(100 + (audioIntensity * 155))})`;
+            shapeSize = 10 + (audioIntensity * 50);
+            rotationSpeed = 0.01 + (audioIntensity * 0.03);
+            drawAbstractPattern(visualCtx, shapeSize, shapeColor,visualCanvas.width, visualCanvas.height, audioIntensity)
+                break;
+        case 'calm':
+        default:
+            shapeColor = 'rgba(255,255,255,'+ (0.5 + (audioIntensity * 0.5)) + ')';
+           shapeSize = 10 + (audioIntensity * 30);
+           rotationSpeed = 0.005 + (audioIntensity * 0.01);
+            drawCalmPattern(visualCtx, shapeSize, shapeColor,visualCanvas.width, visualCanvas.height)
+           break;
+    }
+     angle += rotationSpeed;
+     visualCtx.restore();
+        animationFrameId = requestAnimationFrame(animateVisuals);
+    }
+
+     animateVisuals();
+}
+
+function drawCalmPattern(ctx, shapeSize, shapeColor,canvasWidth, canvasHeight) {
+      const centerX = canvasWidth / 2;
+     const centerY = canvasHeight / 2;
+
+    ctx.fillStyle = shapeColor;
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, shapeSize, 0, 2 * Math.PI);
+     ctx.fill();
+}
+
+function drawAbstractPattern(ctx, shapeSize, shapeColor,canvasWidth, canvasHeight, audioIntensity) {
+    const centerX = canvasWidth / 2;
+    const centerY = canvasHeight / 2;
+
+   ctx.fillStyle = shapeColor
+    const numPoints = 5;
+      const startAngle = Math.PI / 2;  // start at the top
+    ctx.beginPath();
+    for (let i = 0; i < numPoints; i++) {
+        const angle = startAngle + (i * 2 * Math.PI / numPoints)
+        const x = centerX + Math.cos(angle) * (shapeSize + (audioIntensity*50));
+        const y = centerY + Math.sin(angle) * (shapeSize + (audioIntensity*50));
+       ctx.lineTo(x, y)
+
+    }
+      ctx.closePath()
+        ctx.fill();
+}
+
+function drawVibrantPattern(ctx, shapeSize, shapeColor,canvasWidth, canvasHeight) {
+    const centerX = canvasWidth / 2;
+    const centerY = canvasHeight / 2;
+    const gridSize = Math.min(canvasWidth, canvasHeight) / 5
+    ctx.fillStyle = shapeColor;
+  for(let x = 0; x < canvasWidth; x += gridSize){
+    for(let y = 0; y < canvasHeight; y+= gridSize){
+        ctx.fillRect(x,y, shapeSize, shapeSize)
+    }
+  }
+        }
