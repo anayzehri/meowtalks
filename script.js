@@ -84,6 +84,24 @@ let audioContext;
 let analyser;
 let dataArray;
 
+const emotionColors = {
+    hungry: 'rgb(255, 165, 0)',      // Orange
+    affection: 'rgb(255, 192, 203)', // Pink
+    play: 'rgb(0, 128, 0)',          // Green
+    demand: 'rgb(173, 216, 230)',      // Light Blue
+    warning: 'rgb(255, 0, 0)',        // Red
+    default: 'rgb(128, 128, 128)',    // Grey
+};
+const emotionShapes = {
+    hungry: 'circle',
+    affection: 'circle',
+    play: 'star',
+    demand: 'square',
+    warning: 'triangle',
+    default: 'none',
+}
+
+
 recordBtn.addEventListener("click", startRecording);
 
 
@@ -167,13 +185,16 @@ function cycleListeningMessages() {
 
 
 function displayTranslation() {
-  const audioIntensity = calculateAudioIntensity(); // Get the average audio data
-  const assembledPhrase = assembleDynamicPhrase(audioIntensity);
-  translationOutput.textContent = assembledPhrase;
-  confidenceLevelDiv.textContent = `Mood Level: ${Math.round(audioIntensity * 100)}%`; // Display intensity
-  translationOutput.classList.add("show");
-  confidenceLevelDiv.classList.add("show");
-  speakTranslation(assembledPhrase, audioIntensity); // Pass in the audio intensity to manipulate sound
+    const audioIntensity = calculateAudioIntensity(); // Get the average audio data
+    const assembledPhrase = assembleDynamicPhrase(audioIntensity);
+    const dominantEmotion = getDominantEmotion(assembledPhrase);
+    translationOutput.textContent = assembledPhrase;
+    confidenceLevelDiv.textContent = `Mood Level: ${Math.round(audioIntensity * 100)}%`; // Display intensity
+    translationOutput.classList.add("show");
+     confidenceLevelDiv.classList.add("show");
+    setAura(dominantEmotion, audioIntensity);
+
+    speakTranslation(assembledPhrase, audioIntensity); // Pass in the audio intensity to manipulate sound
 
 }
 function calculateAudioIntensity() {
@@ -187,20 +208,61 @@ function calculateAudioIntensity() {
 
 function assembleDynamicPhrase(intensity) {
   const categories = Object.keys(TRANSLATION_MESSAGES).filter(key => key !== 'default');
-  const numberOfParts = Math.max(1, Math.min(3, Math.round(intensity * 3))); // Adjust as needed for your desired mix
-  const parts = [];
-  for (let i = 0; i < numberOfParts; i++) {
-      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-      const messages = Object.values(TRANSLATION_MESSAGES[randomCategory]);
-      if(messages && messages.length > 0){
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-          parts.push(randomMessage.text);
-      }
-
+    const numberOfParts = Math.max(1, Math.min(3, Math.round(intensity * 3))); // Adjust as needed for your desired mix
+    const parts = [];
+    for (let i = 0; i < numberOfParts; i++) {
+        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+        const messages = Object.values(TRANSLATION_MESSAGES[randomCategory]);
+        if(messages && messages.length > 0){
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+              parts.push(randomMessage.text);
+          }
     }
     return parts.join(' ');
 }
 
+function getDominantEmotion(phrase) {
+    const categories = Object.keys(TRANSLATION_MESSAGES).filter(key => key !== 'default');
+    const categoryCounts = {};
+    for(const category of categories) {
+      categoryCounts[category] = 0;
+    }
+    for (const category of categories) {
+        for(const key of Object.keys(TRANSLATION_MESSAGES[category])){
+          if(phrase.includes(TRANSLATION_MESSAGES[category][key].text)) {
+              categoryCounts[category]++;
+          }
+        }
+
+    }
+      let dominantEmotion = "default";
+    let maxCount = 0;
+    for (const category of categories) {
+        if (categoryCounts[category] > maxCount) {
+           maxCount = categoryCounts[category];
+           dominantEmotion = category;
+        }
+    }
+  return dominantEmotion
+}
+function setAura(emotion, intensity) {
+  const translationArea = document.querySelector(".translation-area");
+  translationArea.style.backgroundColor = emotionColors[emotion] || emotionColors.default;
+    //remove existing shape
+    const existingShape = document.querySelector(".aura-shape")
+    if(existingShape){
+        existingShape.remove();
+    }
+  if(emotionShapes[emotion] && emotionShapes[emotion] !== 'none') {
+       const shape = document.createElement("div");
+    shape.classList.add("aura-shape");
+    shape.classList.add(emotionShapes[emotion]);
+    shape.style.opacity = 0.7;
+       shape.style.animation = `pulse ${Math.min(0.75 + (intensity * 0.75) ,2)}s ease-in-out infinite`;
+       translationArea.appendChild(shape);
+    }
+
+}
 function displayCatFact() {
     const randomIndex = Math.floor(Math.random() * CAT_FACTS.length);
     catFactDiv.textContent = "Fun Cat Fact: " + CAT_FACTS[randomIndex];
