@@ -1,4 +1,4 @@
-/* --- CSS Variables --- */
+ /* --- CSS Variables --- */
  :root {
     --color-background: #f8f0e3;
     --color-text: #333;
@@ -109,6 +109,11 @@ main {
     flex-direction: column;
     align-items: center;
      position: relative; /* For positioning aura */
+      transition: transform 0.3s ease-in-out; /* Smooth transition */
+
+}
+.record-container.recording{
+     transform: translateY(-150px);
 }
 
 .record-button {
@@ -152,6 +157,19 @@ main {
     100% {
         transform: scale(1);
     }
+}
+.record-indicator{
+    position: absolute;
+    top: -60px;
+    font-size: 1.5rem;
+    opacity: 0;
+    color: var(--color-primary);
+     transition: opacity 0.3s ease-in-out;
+    font-style: italic;
+
+}
+.record-indicator.recording{
+    opacity:1;
 }
 
 #waveformCanvas {
@@ -422,4 +440,4 @@ footer {
     50% { transform: translate(-50%, -50%) scale(1.2); }
     100% { transform: translate(-50%, -50%) scale(1); }
 }
-}
+ }
