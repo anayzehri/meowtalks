@@ -53,7 +53,6 @@ const CAT_FACTS = [
     "Some cats have a genetic mutation that causes them to be born with extra toes, known as polydactyly.",
     "Cats often knead when they're happy, a behavior that stems from kittenhood when they knead their mother's belly to stimulate milk production.",
 ];
-
 const LISTENING_MESSAGES = [
     "Listening intently...",
     "Analyzing feline vocalizations...",
@@ -61,8 +60,8 @@ const LISTENING_MESSAGES = [
     "Processing meows and purrs...",
     "Detecting subtle purr-turbations...",
 ];
-const ANALYSIS_MESSAGES = ["Analyzing meow...", "Decoding feline language...", "Identifying vocal patterns..."];
 
+const ANALYSIS_MESSAGES = ["Analyzing meow...", "Decoding feline language...", "Identifying vocal patterns..."];
 const recordBtn = document.getElementById("recordBtn");
 const listeningIndicator = document.getElementById("listeningIndicator");
 const translationOutput = document.getElementById("translationOutput");
@@ -74,6 +73,9 @@ const waveformCanvas = document.getElementById("waveformCanvas");
 const canvasCtx = waveformCanvas.getContext('2d');
 const blogHeader = document.getElementById('blogHeader');
 
+// Aura Element
+const mainElement = document.querySelector('main');
+let auraShape;
 
 let listeningMessageIndex = 0;
 let listeningInterval;
@@ -83,29 +85,29 @@ let audioStream;
 let audioContext;
 let analyser;
 let dataArray;
+let isRecording = false;
+let currentContext = 'default';
+let audioIntensity = 0;
 
-const emotionColors = {
-    hungry: 'rgb(255, 165, 0)',      // Orange
-    affection: 'rgb(255, 192, 203)', // Pink
-    play: 'rgb(0, 128, 0)',          // Green
-    demand: 'rgb(173, 216, 230)',      // Light Blue
-    warning: 'rgb(255, 0, 0)',        // Red
-    default: 'rgb(128, 128, 128)',    // Grey
-};
-const emotionShapes = {
-    hungry: 'circle',
-    affection: 'circle',
-    play: 'star',
-    demand: 'square',
-    warning: 'triangle',
-    default: 'none',
+recordBtn.addEventListener("click", toggleRecording);
+contextSelect.addEventListener('change', handleContextChange)
+function handleContextChange(e) {
+    currentContext = e.target.value;
 }
 
 
-recordBtn.addEventListener("click", startRecording);
+async function toggleRecording() {
+    if(!isRecording){
+         startRecording();
+    }
+    else {
+        stopRecording()
+    }
 
+}
 
 async function startRecording() {
+     isRecording = true;
     recordBtn.classList.add("recording");
     listeningIndicator.classList.add("listening");
     translationOutput.classList.remove("show");
@@ -113,6 +115,7 @@ async function startRecording() {
     analysisMessageDiv.classList.remove("show");
     confidenceLevelDiv.classList.remove("show");
     waveformCanvas.classList.remove("active");
+    analysisMessageDiv.classList.remove("animate")
     listeningMessageIndex = 0;
     listeningIndicator.textContent = LISTENING_MESSAGES[listeningMessageIndex];
     listeningInterval = setInterval(cycleListeningMessages, 800);
@@ -149,19 +152,27 @@ function startAnalysis() {
     clearInterval(listeningInterval);
     listeningIndicator.classList.remove("listening");
     listeningIndicator.textContent = "";
-    analysisMessageDiv.textContent = ANALYSIS_MESSAGES[0];
-    analysisMessageDiv.classList.add("show");
+     analysisMessageDiv.classList.add("show");
+     analysisMessageDiv.textContent = ANALYSIS_MESSAGES[0];
+    analysisMessageDiv.classList.add("animate");
     waveformCanvas.classList.add("active");
-    drawWaveform(); // Start drawing the waveform
+      drawWaveform(); // Start drawing the waveform
+        if(!auraShape){
+         createAura() // create the aura element
+        }
+
     setTimeout(stopRecording, 2000);
 
 }
 function stopRecording() {
+     isRecording = false;
     recordBtn.classList.remove("recording");
     waveformCanvas.classList.remove("active");
     analysisMessageDiv.classList.remove("show");
+     analysisMessageDiv.classList.remove("animate")
     cancelAnimationFrame(animationFrameId);
     canvasCtx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height)
+
     // Stop audio tracks
     if (audioStream) {
         audioStream.getTracks().forEach(track => track.stop());
@@ -176,6 +187,7 @@ function stopRecording() {
         translationOutput.textContent = "No cat detected. Try again.";
         translationOutput.classList.add("show");
     }
+     removeAura()
 }
 
 function cycleListeningMessages() {
@@ -185,17 +197,14 @@ function cycleListeningMessages() {
 
 
 function displayTranslation() {
-    const audioIntensity = calculateAudioIntensity(); // Get the average audio data
-    const assembledPhrase = assembleDynamicPhrase(audioIntensity);
-    const dominantEmotion = getDominantEmotion(assembledPhrase);
-    translationOutput.textContent = assembledPhrase;
-    confidenceLevelDiv.textContent = `Mood Level: ${Math.round(audioIntensity * 100)}%`; // Display intensity
-    translationOutput.classList.add("show");
-     confidenceLevelDiv.classList.add("show");
-    setAura(dominantEmotion, audioIntensity);
-
-    speakTranslation(assembledPhrase, audioIntensity); // Pass in the audio intensity to manipulate sound
-
+     audioIntensity = calculateAudioIntensity(); // Get the average audio data
+  const assembledPhrase = assembleDynamicPhrase(audioIntensity);
+  translationOutput.textContent = assembledPhrase;
+  confidenceLevelDiv.textContent = `Mood Level: ${Math.round(audioIntensity * 100)}%`; // Display intensity
+  translationOutput.classList.add("show");
+  confidenceLevelDiv.classList.add("show");
+  speakTranslation(assembledPhrase, audioIntensity); // Pass in the audio intensity to manipulate sound
+    animateAura(audioIntensity, currentContext);
 }
 function calculateAudioIntensity() {
   analyser.getByteTimeDomainData(dataArray);
@@ -208,61 +217,20 @@ function calculateAudioIntensity() {
 
 function assembleDynamicPhrase(intensity) {
   const categories = Object.keys(TRANSLATION_MESSAGES).filter(key => key !== 'default');
-    const numberOfParts = Math.max(1, Math.min(3, Math.round(intensity * 3))); // Adjust as needed for your desired mix
-    const parts = [];
-    for (let i = 0; i < numberOfParts; i++) {
-        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-        const messages = Object.values(TRANSLATION_MESSAGES[randomCategory]);
-        if(messages && messages.length > 0){
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-              parts.push(randomMessage.text);
-          }
+  const numberOfParts = Math.max(1, Math.min(3, Math.round(intensity * 3))); // Adjust as needed for your desired mix
+  const parts = [];
+  for (let i = 0; i < numberOfParts; i++) {
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      const messages = Object.values(TRANSLATION_MESSAGES[randomCategory]);
+      if(messages && messages.length > 0){
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+          parts.push(randomMessage.text);
+      }
+
     }
     return parts.join(' ');
 }
 
-function getDominantEmotion(phrase) {
-    const categories = Object.keys(TRANSLATION_MESSAGES).filter(key => key !== 'default');
-    const categoryCounts = {};
-    for(const category of categories) {
-      categoryCounts[category] = 0;
-    }
-    for (const category of categories) {
-        for(const key of Object.keys(TRANSLATION_MESSAGES[category])){
-          if(phrase.includes(TRANSLATION_MESSAGES[category][key].text)) {
-              categoryCounts[category]++;
-          }
-        }
-
-    }
-      let dominantEmotion = "default";
-    let maxCount = 0;
-    for (const category of categories) {
-        if (categoryCounts[category] > maxCount) {
-           maxCount = categoryCounts[category];
-           dominantEmotion = category;
-        }
-    }
-  return dominantEmotion
-}
-function setAura(emotion, intensity) {
-  const translationArea = document.querySelector(".translation-area");
-  translationArea.style.backgroundColor = emotionColors[emotion] || emotionColors.default;
-    //remove existing shape
-    const existingShape = document.querySelector(".aura-shape")
-    if(existingShape){
-        existingShape.remove();
-    }
-  if(emotionShapes[emotion] && emotionShapes[emotion] !== 'none') {
-       const shape = document.createElement("div");
-    shape.classList.add("aura-shape");
-    shape.classList.add(emotionShapes[emotion]);
-    shape.style.opacity = 0.7;
-       shape.style.animation = `pulse ${Math.min(0.75 + (intensity * 0.75) ,2)}s ease-in-out infinite`;
-       translationArea.appendChild(shape);
-    }
-
-}
 function displayCatFact() {
     const randomIndex = Math.floor(Math.random() * CAT_FACTS.length);
     catFactDiv.textContent = "Fun Cat Fact: " + CAT_FACTS[randomIndex];
@@ -294,10 +262,54 @@ function drawWaveform() {
 // Text to Speech function with audio manipulation
 function speakTranslation(text, intensity) {
     const utterance = new SpeechSynthesisUtterance(text);
-    // Optional:  set voice, rate, pitch etc here - feel free to experiment
-    // utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'your_preferred_voice_name') //get voices
-
     utterance.rate = 1 + (intensity * 0.5);  // Control speed
     utterance.pitch = 1 + (intensity * 0.5); // Control pitch
     speechSynthesis.speak(utterance);
+}
+// ----- Aura Element Functionality ----------
+function createAura() {
+  auraShape = document.createElement('div')
+  auraShape.classList.add("aura-shape", "circle") //default class
+  mainElement.appendChild(auraShape)
+
+}
+function animateAura(intensity, context) {
+    if(!auraShape) return;
+    // Determine shape based on context
+     let shapeClass = 'circle';
+    switch (context) {
+         case 'hungry':
+             shapeClass = 'square';
+             break;
+        case 'affection':
+             shapeClass = 'circle';
+             break;
+        case 'play':
+              shapeClass = 'star';
+             break;
+        case 'demand':
+            shapeClass = 'triangle';
+            break;
+        case 'warning':
+             shapeClass = 'triangle';
+           break;
+    }
+     auraShape.classList.remove("circle","square","star","triangle");
+    auraShape.classList.add('aura-shape', shapeClass);
+
+  //Animate based on intensity
+     auraShape.style.transform = `translate(-50%, -50%) scale(${1 + (intensity * 0.4)})`; // scale up on audio
+  auraShape.style.opacity = 0.2 + (intensity*0.8);
+    auraShape.style.animation = 'pulse 1s'; //set animation for a brief time.
+      setTimeout(() => {
+        auraShape.style.animation = '';
+    }, 1000);
+
+}
+function removeAura(){
+  if(auraShape) {
+      mainElement.removeChild(auraShape);
+      auraShape = null
+  }
+
 }
