@@ -7,28 +7,28 @@ const TRANSLATION_MESSAGES = {
         meow5: { text: "A little nibble? Please?", confidence: 50, frequencyRange: [300, 500], intensity: 0.4, duration: 0.6 },
     },
     affection: {
-        purr1: { text: "Purrrr... you may pet me.", confidence: 90, frequencyRange: [25, 150], intensity: 0.3, duration: 2 },
-        purr2: { text: "I tolerate your affection.", confidence: 75, frequencyRange: [50, 120], intensity: 0.4, duration: 1.5 },
-        purr3: { text: "Head scratches are... acceptable.", confidence: 65, frequencyRange: [60, 130], intensity: 0.5, duration: 1.2 },
-        purr4: { text: "More chin rubs... please?", confidence: 80, frequencyRange: [30, 100], intensity: 0.4, duration: 1.3 },
-        purr5: { text: "I suppose you may sit near me.", confidence: 50, frequencyRange: [70, 140], intensity: 0.3, duration: 1.1 },
+        purr1: { text: "you may pet me.", confidence: 90, frequencyRange: [25, 150], intensity: 0.3, duration: 2 },
+        purr2: { text: "tolerate your affection.", confidence: 75, frequencyRange: [50, 120], intensity: 0.4, duration: 1.5 },
+        purr3: { text: "Head scratches are acceptable.", confidence: 65, frequencyRange: [60, 130], intensity: 0.5, duration: 1.2 },
+        purr4: { text: "More chin rubs please?", confidence: 80, frequencyRange: [30, 100], intensity: 0.4, duration: 1.3 },
+        purr5: { text: "you may sit near me.", confidence: 50, frequencyRange: [70, 140], intensity: 0.3, duration: 1.1 },
     },
     play: {
-        meow1: { text: "The red dot! Engage!", confidence: 80, frequencyRange: [500, 700], intensity: 0.7, duration: 0.5 },
-        meow2: { text: "This toy mouse is my mortal enemy!", confidence: 70, frequencyRange: [600, 800], intensity: 0.6, duration: 0.7 },
-        meow3: { text: "Play with me, human!", confidence: 60, frequencyRange: [550, 750], intensity: 0.8, duration: 0.6 },
-        meow4: { text: "Time for some zooming around!", confidence: 90, frequencyRange: [650, 850], intensity: 0.9, duration: 0.4 },
+        meow1: { text: "red dot! Engage!", confidence: 80, frequencyRange: [500, 700], intensity: 0.7, duration: 0.5 },
+        meow2: { text: "toy mouse is my enemy!", confidence: 70, frequencyRange: [600, 800], intensity: 0.6, duration: 0.7 },
+        meow3: { text: "Play with me!", confidence: 60, frequencyRange: [550, 750], intensity: 0.8, duration: 0.6 },
+        meow4: { text: "zooming around!", confidence: 90, frequencyRange: [650, 850], intensity: 0.9, duration: 0.4 },
         meow5: { text: "I must catch the stringy thing!", confidence: 80, frequencyRange: [450, 650], intensity: 0.7, duration: 0.5 },
     },
     demand: {
-        meow1: { text: "Open the door, minion!", confidence: 95, frequencyRange: [800, 1000], intensity: 0.9, duration: 0.5 },
-        meow2: { text: "I require your immediate attention!", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.7 },
+        meow1: { text: "Open the door!", confidence: 95, frequencyRange: [800, 1000], intensity: 0.9, duration: 0.5 },
+        meow2: { text: "I require attention!", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.7 },
         meow3: { text: "Why is this door closed?!", confidence: 65, frequencyRange: [700, 900], intensity: 0.7, duration: 0.6 },
-        meow4: { text: "I'm waiting for my request to be fulfilled!", confidence: 90, frequencyRange: [850, 1050], intensity: 0.9, duration: 0.8 },
-        meow5: { text: "Hey, I said OPEN it!", confidence: 90, frequencyRange: [750, 950], intensity: 0.9, duration: 0.4 },
+        meow4: { text: "waiting for my request to be fulfilled!", confidence: 90, frequencyRange: [850, 1050], intensity: 0.9, duration: 0.8 },
+        meow5: { text: "I said OPEN it!", confidence: 90, frequencyRange: [750, 950], intensity: 0.9, duration: 0.4 },
     },
     warning: {
-        hiss1: { text: "Hssss! Back away slowly.", confidence: 90, frequencyRange: [1000, 1200], intensity: 0.9, duration: 0.3 },
+        hiss1: { text: "Back away slowly.", confidence: 90, frequencyRange: [1000, 1200], intensity: 0.9, duration: 0.3 },
         hiss2: { text: "I am displeased.", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.5 },
         hiss3: { text: "That is MY spot!", confidence: 70, frequencyRange: [1100, 1300], intensity: 0.7, duration: 0.6 },
         hiss4: { text: "You dare come closer?", confidence: 85, frequencyRange: [1050, 1250], intensity: 0.85, duration: 0.4 },
@@ -167,16 +167,38 @@ function cycleListeningMessages() {
 
 
 function displayTranslation() {
-    const selectedContext = contextSelect.value;
-    const translations = TRANSLATION_MESSAGES[selectedContext] || TRANSLATION_MESSAGES.default;
-    const meowTypes = Object.keys(translations);
-    const randomMeowType = meowTypes[Math.floor(Math.random() * meowTypes.length)];
-    const [translation, confidence] = translations[randomMeowType];
-    translationOutput.textContent = translation;
-    confidenceLevelDiv.textContent = `Confidence: ${confidence}%`;
-    translationOutput.classList.add("show");
-    confidenceLevelDiv.classList.add("show");
-    speakTranslation(translation); //call the speech function
+  const audioIntensity = calculateAudioIntensity(); // Get the average audio data
+  const assembledPhrase = assembleDynamicPhrase(audioIntensity);
+  translationOutput.textContent = assembledPhrase;
+  confidenceLevelDiv.textContent = `Mood Level: ${Math.round(audioIntensity * 100)}%`; // Display intensity
+  translationOutput.classList.add("show");
+  confidenceLevelDiv.classList.add("show");
+  speakTranslation(assembledPhrase, audioIntensity); // Pass in the audio intensity to manipulate sound
+
+}
+function calculateAudioIntensity() {
+  analyser.getByteTimeDomainData(dataArray);
+    let sum = 0;
+    for (const amplitude of dataArray) {
+        sum += Math.abs(amplitude - 128);
+    }
+    return sum / (dataArray.length * 128);
+}
+
+function assembleDynamicPhrase(intensity) {
+  const categories = Object.keys(TRANSLATION_MESSAGES).filter(key => key !== 'default');
+  const numberOfParts = Math.max(1, Math.min(3, Math.round(intensity * 3))); // Adjust as needed for your desired mix
+  const parts = [];
+  for (let i = 0; i < numberOfParts; i++) {
+      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+      const messages = Object.values(TRANSLATION_MESSAGES[randomCategory]);
+      if(messages && messages.length > 0){
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+          parts.push(randomMessage.text);
+      }
+
+    }
+    return parts.join(' ');
 }
 
 function displayCatFact() {
@@ -207,11 +229,13 @@ function drawWaveform() {
     animate();
 }
 
-// Text to Speech function
-function speakTranslation(text) {
+// Text to Speech function with audio manipulation
+function speakTranslation(text, intensity) {
     const utterance = new SpeechSynthesisUtterance(text);
     // Optional:  set voice, rate, pitch etc here - feel free to experiment
-        // utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'your_preferred_voice_name') //get voices
+    // utterance.voice = speechSynthesis.getVoices().find(voice => voice.name === 'your_preferred_voice_name') //get voices
 
+    utterance.rate = 1 + (intensity * 0.5);  // Control speed
+    utterance.pitch = 1 + (intensity * 0.5); // Control pitch
     speechSynthesis.speak(utterance);
 }
