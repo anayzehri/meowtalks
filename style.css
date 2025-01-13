@@ -31,6 +31,7 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow-x: hidden;
+    transition: background-color 0.5s ease; /* Smooth background transition */
 }
 
 html {
@@ -45,15 +46,32 @@ header {
     text-align: center;
     width: 100%;
     box-shadow: var(--box-shadow);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Header transitions */
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5em;
+    transition: transform 0.3s ease-in-out; /* Subtle hover effect */
+}
+
+header h1:hover {
+    transform: scale(1.03);
 }
 
 header h1 i {
     margin-right: var(--spacing-small);
+    animation: tailWag 2s infinite alternate; /* Fun cat tail wag */
+    display: inline-block; /* Required for animation */
+}
+
+@keyframes tailWag {
+    0% {
+        transform: rotate(-10deg);
+    }
+    100% {
+        transform: rotate(10deg);
+    }
 }
 
 /* --- Main Content Styles (Index Page) --- */
@@ -66,6 +84,7 @@ main {
     padding: var(--spacing-medium);
     width: 90%;
     max-width: 1200px;
+    transition: opacity 0.5s ease; /* Fade-in effect for main content */
 }
 
 .blog-header-container {
@@ -75,6 +94,7 @@ main {
     background-color: #fff;
     box-shadow: var(--box-shadow);
     margin-bottom: var(--spacing-medium);
+    border-radius: 8px; /* Rounded corners for the scrolling header */
 }
 
 .blog-header {
@@ -88,11 +108,14 @@ main {
     text-decoration: none;
     color: var(--color-text);
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease-in-out;
+    border-radius: 5px;
 }
 
 .blog-header a:hover {
     background-color: var(--color-light-grey);
+    transform: scale(1.05);
+    color: var(--color-primary);
 }
 
 @keyframes scrollHeader {
@@ -110,7 +133,6 @@ main {
     align-items: center;
      position: relative; /* For positioning aura */
       transition: transform 0.3s ease-in-out; /* Smooth transition */
-
 }
 .record-container.recording{
      transform: translateY(-150px);
@@ -129,14 +151,35 @@ main {
     align-items: center;
     justify-content: center;
     box-shadow: var(--box-shadow-large);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease;
+    transition: transform 0.2s cubic-bezier(0.68, -0.55, 0.27, 1.55), box-shadow 0.2s ease-in-out, background-color 0.3s ease, color 0.3s ease;
       position: relative; /* For positioning aura */
       z-index: 1; /* Ensure button is above the aura */
 }
 
+.record-button::before { /* "Aura" effect */
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: rgba(70, 137, 161, 0.4); /* Adjust color and opacity */
+    border-radius: 50%;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.record-button:hover::before,
+.record-button:focus::before {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
 .record-button:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background-color: #5b9bbd; /* Slightly lighter on hover */
 }
 
 .record-button:focus {
@@ -144,7 +187,7 @@ main {
 }
 
 .record-button.recording {
-    animation: pulse 1s infinite;
+    animation: pulse 1s infinite, colorChange 1s infinite alternate; /* Add color change during recording */
 }
 
 @keyframes pulse {
@@ -158,18 +201,28 @@ main {
         transform: scale(1);
     }
 }
+
+@keyframes colorChange {
+    0% {
+        background-color: var(--color-primary);
+    }
+    100% {
+        background-color: #e67e22; /* A contrasting color */
+    }
+}
+
 .record-indicator{
     position: absolute;
     top: -60px;
     font-size: 1.5rem;
     opacity: 0;
     color: var(--color-primary);
-     transition: opacity 0.3s ease-in-out;
+     transition: opacity 0.3s ease-in-out, transform 0.2s ease-out;
     font-style: italic;
-
 }
 .record-indicator.recording{
     opacity:1;
+    transform: translateY(10px);
 }
 
 #waveformCanvas {
@@ -179,11 +232,12 @@ main {
     border-radius: 10px;
     background-color: var(--color-grey);
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease-out; /* Smooth appearance */
 }
 
 #waveformCanvas.active {
     opacity: 1;
+    transform: scale(1.05);
 }
 
 #listeningIndicator {
@@ -191,27 +245,41 @@ main {
     font-style: italic;
     color: var(--color-dark-grey);
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease-out; /* Smooth appearance */
 }
 
 #listeningIndicator.listening {
     opacity: 1;
+    transform: translateY(5px);
 }
 
 .context-selector {
     margin-top: var(--spacing-medium);
     display: flex;
     align-items: center;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Subtle movement */
+}
+
+.context-selector:hover {
+    transform: translateY(-5px);
 }
 
 .context-selector label {
     margin-right: var(--spacing-small);
+    transition: color 0.3s ease;
 }
 
 .context-selector select {
     padding: 8px;
     border-radius: 5px;
     border: 1px solid var(--color-grey);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.context-selector select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 5px rgba(69, 123, 157, 0.5);
 }
 
 #translationArea {
@@ -227,11 +295,12 @@ main {
     color: var(--color-dark-grey);
     margin-bottom: var(--spacing-small);
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease-out; /* Smooth appearance */
 }
 
 #analysisMessage.show {
     opacity: 1;
+    transform: translateY(5px);
 }
 
 #analysisMessage.animate {
@@ -251,7 +320,7 @@ main {
     font-size: 1.2em;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition: opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy appearance */
     margin-bottom: 5px;
 }
 
@@ -264,28 +333,40 @@ main {
     font-style: italic;
     color: var(--color-dark-grey);
     opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease-out; /* Smooth appearance */
     margin-bottom: var(--spacing-small);
 }
 
 #confidenceLevel.show {
     opacity: 1;
+    transform: translateY(5px);
 }
 
 .meow-type-placeholder {
     font-size: 2em;
     color: var(--color-dark-grey);
-     transition: background-color 0.3s ease;
+     transition: background-color 0.3s ease, transform 0.2s ease-in-out, opacity 0.5s ease-out;
       position: relative;
        z-index: 1; /* Ensure text is above the aura */
     padding: 5px;
     margin: 5px;
         border-radius: 10px;
     opacity: 0;
-        transition: opacity 0.5s ease-out;
 }
 .meow-type-placeholder.show{
     opacity: 1;
+    animation: catPop 0.5s ease-out; /* Fun pop-in animation */
+}
+
+@keyframes catPop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 #catFact {
@@ -298,7 +379,7 @@ main {
     font-size: 0.9em;
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transition: opacity 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55), transform 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* More dramatic appearance */
 }
 
 #catFact.show {
@@ -314,6 +395,7 @@ footer {
     padding: var(--spacing-small) 0;
     width: 100%;
     margin-top: auto;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Footer transitions */
 }
 
 /* --- Blog Specific styles --- */
@@ -335,20 +417,31 @@ footer {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: var(--box-shadow-medium);
-    transition: background-color 0.2s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
 }
 
 .blog-post:hover {
     background-color: var(--color-light-grey);
+    transform: scale(1.02);
 }
 
 .blog-post h2 {
     margin-bottom: var(--spacing-small);
+    transition: color 0.3s ease;
+}
+
+.blog-post h2:hover {
+    color: var(--color-primary);
 }
 
 .blog-post a {
     text-decoration: none;
     color: inherit;
+    transition: color 0.3s ease;
+}
+
+.blog-post a:hover {
+    color: var(--color-primary);
 }
 
 .blog-post-content {
@@ -361,16 +454,32 @@ footer {
 .blog-post-content img {
     max-width: 100%;
     height: auto;
+    border-radius: 8px; /* Rounded corners for images */
+    transition: transform 0.3s ease-in-out;
+}
+
+.blog-post-content img:hover {
+    transform: scale(1.05);
 }
 
 .blog-link {
     margin-top: var(--spacing-medium);
+    transition: transform 0.2s ease-in-out;
+}
+
+.blog-link:hover {
+    transform: translateY(-3px);
 }
 
 .blog-link a {
     text-decoration: none;
     color: var(--color-primary);
     font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.blog-link a:hover {
+    color: #7abdd8; /* A lighter shade of primary on hover */
 }
 
 /* --- Media Queries (Responsiveness) --- */
@@ -384,12 +493,25 @@ footer {
     }
 
     .blog-header-container {
-        height: 70px;
+        height: auto; /* Adjust height for smaller screens */
+    }
+
+    .blog-header {
+        animation: scrollHeaderMobile 25s linear infinite; /* Slower scroll on mobile */
+    }
+
+    @keyframes scrollHeaderMobile {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-150%); /* Scroll further on mobile */
+        }
     }
 
     .blog-header a {
-        padding: 5px;
-        font-size: 0.9em;
+        padding: 8px 5px;
+        font-size: 0.85em;
     }
 }
 
@@ -403,5 +525,14 @@ footer {
         height: 80px;
         font-size: 1.5em;
     }
+
+    .context-selector {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .context-selector label {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
 }
-    
