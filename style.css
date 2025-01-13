@@ -1,214 +1,311 @@
- /* --- CSS Variables --- */
+ /* --- CSS Variables - Unleash the Magic! ✨ --- */
  :root {
-    --color-background: #f8f0e3;
-    --color-text: #333;
-    --color-header-bg: #a8dadc;
-    --color-header-text: #1d3557;
-    --color-primary: #457b9d;
-    --color-secondary: #f1faee;
-    --color-accent: #ffe0b2;
-    --color-light-grey: #f0f0f0;
-    --color-grey: #ccc;
-    --color-dark-grey: #777;
-    --color-footer-bg: #1d3557;
-    --color-footer-text: #f1faee;
-    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    --box-shadow-medium: 0 2px 10px rgba(0, 0, 0, 0.1);
-    --box-shadow-large: 0 5px 15px rgba(0, 0, 0, 0.2);
-    --spacing-small: 10px;
-    --spacing-medium: 20px;
-    --spacing-large: 30px;
+    --brand-primary: #ff9f43; /* Energetic Orange 🍊 */
+    --brand-secondary: #fe4a49; /* Playful Red ❤️ */
+    --brand-accent: #2ab7ca;    /* Vibrant Teal 💎 */
+    --text-primary: #3a3a3a;
+    --text-secondary: #fff;
+    --bg-light: #f0f0f0;
+    --bg-dark: #2d3436;
+    --shadow-small: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 5px 10px rgba(0, 0, 0, 0.2);
+    --ff-fun: 'Comic Neue', cursive, sans-serif;
+    --ff-body: sans-serif; /* Fallback */
+    --transition-fast: 0.2s ease-in-out;
+    --transition-medium: 0.3s ease-in-out;
 }
 
-/* --- Base Styles --- */
+/*  Import Comic Neue (if not linked in HTML) */
+/* @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap'); */
+
+/* --- Global Styles - A Touch of Whimsy --- */
 body {
-    font-family: sans-serif;
+    font-family: var(--ff-body);
     margin: 0;
-    background-color: var(--color-background);
-    color: var(--color-text);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+    background-color: var(--bg-light);
+    color: var(--text-primary);
     overflow-x: hidden;
+    line-height: 1.6;
+    transition: background-color var(--transition-medium), color var(--transition-medium);
 }
 
-html {
-    overflow-x: hidden;
+body.dark-mode {
+    background-color: var(--bg-dark);
+    color: var(--text-secondary);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    scroll-behavior: smooth; /* For smooth scrolling */
 }
 
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--spacing-medium);
+    padding: 20px;
 }
 
-/* --- Header Styles --- */
-header {
-    background-color: var(--color-header-bg);
-    color: var(--color-header-text);
-    padding: var(--spacing-medium) 0;
+/* --- Funky Header Styles --- */
+.fun-header {
+    background-color: var(--brand-primary);
+    color: var(--text-secondary);
     text-align: center;
-    width: 100%;
-    box-shadow: var(--box-shadow);
+    padding: 40px 0;
+    box-shadow: var(--shadow-medium);
+    border-bottom: 5px dashed var(--brand-secondary);
+    position: relative;
+    overflow: hidden; /* For background effect */
 }
 
-header .container {
+.fun-header::before {
+    content: '🐾';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 2em;
+    opacity: 0.3;
+    animation: float 5s linear infinite alternate;
+}
+
+.fun-header::after {
+    content: '🧶';
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-size: 2em;
+    opacity: 0.3;
+    animation: float 7s linear infinite alternate-reverse;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-15px);
+    }
+}
+
+.fun-header .container {
+    position: relative; /* To keep content above pseudo-elements */
+    z-index: 1;
+}
+
+.fun-header h1 {
+    margin: 0;
+    font-size: 3.5em;
+    font-family: var(--ff-fun);
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1px;
+}
+
+.fun-header .tagline {
+    font-size: 1.6em;
+    font-style: italic;
+    margin-top: 10px;
+    animation: fadeIn 1s ease-out backwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Interactive Navigation Styles --- */
+.fun-nav {
+    background-color: var(--brand-secondary);
+    box-shadow: var(--shadow-small);
+    border-radius: 0 0 20px 20px;
+    margin-bottom: 30px;
+    position: sticky; /* Stick to the top on scroll */
+    top: 0;
+    z-index: 100; /* Ensure it's above other content */
+}
+
+.fun-nav .container ul {
+    list-style: none;
+    padding: 15px 0;
+    margin: 0;
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
+}
+
+.fun-nav .container li a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 30px;
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
     align-items: center;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2.5em;
+.fun-nav .container li a i {
+    margin-right: 8px;
 }
 
-header h1 a {
+.fun-nav .container li a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scaleX(0);
+    transform-origin: 0% 50%;
+    transition: transform var(--transition-medium);
+    z-index: -1;
+    border-radius: inherit;
+}
+
+.fun-nav .container li a:hover {
+    transform: scale(1.1);
+}
+
+.fun-nav .container li a:hover::before {
+    transform: scaleX(1);
+}
+
+/* --- Playful Main Content Styles --- */
+.fun-main {
+    background-color: var(--bg-light);
+    padding-bottom: 60px;
+    transition: background-color var(--transition-medium);
+}
+
+body.dark-mode .fun-main {
+    background-color: var(--bg-dark);
+}
+
+.hero-fun {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: var(--shadow-medium);
+    margin-bottom: 40px;
+    border: 4px dotted var(--brand-primary);
+    animation: fadeInUp 1.2s ease-out backwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-fun h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: var(--brand-secondary);
+    font-family: var(--ff-fun);
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+}
+
+.hero-fun p {
+    font-size: 1.3em;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+}
+
+body.dark-mode .hero-fun p {
+    color: var(--text-secondary);
+}
+
+.fun-button {
+    display: inline-block;
+    padding: 18px 35px;
+    background-color: var(--brand-accent);
+    color: var(--text-secondary);
     text-decoration: none;
-    color: inherit;
-}
-
-header h1 i {
-    margin-right: var(--spacing-small);
-}
-
-header .tagline {
-    margin-top: var(--spacing-small);
-    font-style: italic;
+    border-radius: 40px;
+    font-weight: bold;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    box-shadow: var(--shadow-small);
+    margin-top: 25px;
     font-size: 1.1em;
 }
 
-/* --- Navigation Styles --- */
-.main-nav {
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
-    width: 100%;
-    box-shadow: var(--box-shadow);
+.fun-button i {
+    margin-right: 10px;
 }
 
-.main-nav .container ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    justify-content: center;
+.fun-button:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-medium);
 }
 
-.main-nav .container li {
-    margin: 0;
-}
-
-.main-nav .container a {
-    display: block;
-    padding: var(--spacing-small) var(--spacing-medium);
-    text-decoration: none;
-    color: var(--color-secondary);
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.main-nav .container a:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-/* --- Main Content Styles (Index Page) --- */
-main {
-    flex-grow: 1;
-    padding: var(--spacing-large) 0;
-}
-
-main .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* --- Hero Section --- */
-.hero {
+/* --- Engaging Translator Section --- */
+.translator-fun {
     text-align: center;
-    margin-bottom: var(--spacing-large);
+    margin-bottom: 50px;
 }
 
-.hero h2 {
-    font-size: 2em;
-    margin-bottom: var(--spacing-small);
+.translator-fun h3 {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: var(--brand-primary);
+    font-family: var(--ff-fun);
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+    animation: bounce 1.5s infinite;
 }
 
-.hero p {
-    line-height: 1.6;
-    margin-bottom: var(--spacing-medium);
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
 }
 
-.hero .button {
-    display: inline-block;
-    padding: var(--spacing-small) var(--spacing-medium);
-    background-color: var(--color-accent);
-    color: var(--color-header-text);
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.hero .button:hover {
-    background-color: #ffc107; /* A slightly darker shade of accent */
-}
-
-/* --- Translator Section --- */
-.translator-section {
-    text-align: center;
-    margin-bottom: var(--spacing-large);
-}
-
-.translator-section h3 {
-    font-size: 1.6em;
-    margin-bottom: var(--spacing-medium);
-}
-
-/* --- Record Container and Button Styles (No significant changes needed) --- */
 .record-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative; /* For positioning aura */
-    transition: transform 0.3s ease-in-out; /* Smooth transition */
+    margin-bottom: 20px;
 }
 
-.record-container.recording{
-    transform: translateY(-150px);
-}
-
-.record-button {
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
-    border: none;
+.fun-record-button {
+    background-color: #fff;
+    color: var(--brand-secondary);
+    border: 3px solid var(--brand-secondary);
     border-radius: 50%;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     font-size: 2em;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--box-shadow-large);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.3s ease;
-    position: relative; /* For positioning aura */
-    z-index: 1; /* Ensure button is above the aura */
+    box-shadow: var(--shadow-medium);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+    position: relative;
+    overflow: hidden;
 }
 
-.record-button:hover {
+.fun-record-button:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background-color: var(--brand-secondary);
+    color: var(--text-secondary);
 }
 
-.record-button:focus {
-    outline: none;
-}
-
-.record-button.recording {
-    animation: pulse 1s infinite;
+.fun-record-button i {
+    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
@@ -216,330 +313,257 @@ main .container {
         transform: scale(1);
     }
     50% {
-        transform: scale(1.1);
+        transform: scale(1.15);
     }
     100% {
         transform: scale(1);
     }
 }
-.record-indicator{
-    position: absolute;
-    top: -60px;
-    font-size: 1.5rem;
-    opacity: 0;
-    color: var(--color-primary);
-    transition: opacity 0.3s ease-in-out;
-    font-style: italic;
-
-}
-.record-indicator.recording{
-    opacity:1;
-}
-
-#waveformCanvas {
-    margin-top: var(--spacing-small);
-    width: 200px;
-    height: 50px;
-    border-radius: 10px;
-    background-color: var(--color-grey);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-#waveformCanvas.active {
-    opacity: 1;
-}
 
 #listeningIndicator {
-    margin-top: var(--spacing-medium);
+    margin-top: 20px;
     font-style: italic;
-    color: var(--color-dark-grey);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+    color: var(--brand-accent);
+    font-weight: bold;
+    animation: fadeInOut 1s infinite alternate;
 }
 
-#listeningIndicator.listening {
-    opacity: 1;
+@keyframes fadeInOut {
+    from {
+        opacity: 0.4;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-/* --- Context Selector Styles (No significant changes needed) --- */
 .context-selector {
-    margin-top: var(--spacing-medium);
+    margin-top: 30px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: center; /* Center the selector */
 }
 
 .context-selector label {
-    margin-right: var(--spacing-small);
+    font-size: 1.2em;
+    margin-right: 15px;
+    font-weight: bold;
 }
 
 .context-selector select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid var(--color-grey);
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: 2px solid var(--brand-accent);
+    font-size: 1.1em;
+    appearance: none; /* Remove default arrow */
+    -webkit-appearance: none;
+    background-color: #fff;
+    color: var(--text-primary);
+    cursor: pointer;
 }
 
-/* --- Translation Area Styles (No significant changes needed) --- */
-#translationArea {
-    margin-top: var(--spacing-large);
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    position: relative; /* For positioning aura */
+/* --- Playful Translation Area --- */
+.fun-translation-area {
+    margin-top: 40px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 25px;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
 }
 
-#analysisMessage {
-    font-style: italic;
-    color: var(--color-dark-grey);
-    margin-bottom: var(--spacing-small);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
+.fun-translation-area::before {
+    content: '💬';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    font-size: 3em;
+    opacity: 0.4;
 }
 
-#analysisMessage.show {
-    opacity: 1;
-}
-
-#analysisMessage.animate {
-   animation: fadeInOut 1s infinite;
-}
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1;}
+.fun-translation-area::after {
+    content: '🐾';
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    font-size: 3em;
+    opacity: 0.4;
 }
 
 #translationOutput {
-    padding: var(--spacing-medium);
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow-medium);
-    text-align: center;
-    font-size: 1.2em;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-    margin-bottom: 5px;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: var(--brand-primary);
+    margin-bottom: 15px;
+    animation: pulseColor 2s infinite;
 }
 
-#translationOutput.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-#confidenceLevel {
-    font-style: italic;
-    color: var(--color-dark-grey);
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-    margin-bottom: var(--spacing-small);
-}
-
-#confidenceLevel.show {
-    opacity: 1;
+@keyframes pulseColor {
+    0%, 100% {
+        color: var(--brand-primary);
+    }
+    50% {
+        color: var(--brand-secondary);
+    }
 }
 
 .meow-type-placeholder {
+    font-size: 4em;
+    margin-top: 15px;
+    animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Fun Cat Facts --- */
+.cat-facts-fun {
+    text-align: center;
+    padding: 40px;
+    background-color: var(--brand-accent);
+    color: var(--text-secondary);
+    border-radius: 20px;
+    box-shadow: var(--shadow-small);
+    animation: slideIn 1s ease-out backwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.cat-facts-fun h3 {
     font-size: 2em;
-    color: var(--color-dark-grey);
-    transition: background-color 0.3s ease;
-    position: relative;
-    z-index: 1; /* Ensure text is above the aura */
-    padding: 5px;
-    margin: 5px;
-    border-radius: 10px;
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
-}
-.meow-type-placeholder.show{
-    opacity: 1;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* --- Cat Facts Section --- */
-.cat-facts {
+/* --- Playful Blog Preview --- */
+.blog-preview-fun {
+    margin-top: 60px;
+}
+
+.blog-preview-fun h3 {
+    font-size: 2.2em;
     text-align: center;
-    margin-bottom: var(--spacing-large);
+    margin-bottom: 30px;
+    color: var(--brand-secondary);
+    font-family: var(--ff-fun);
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
 }
 
-.cat-facts h3 {
-    font-size: 1.4em;
-    margin-bottom: var(--spacing-medium);
-}
-
-#catFact {
-    margin-top: var(--spacing-small); /* Adjust margin if needed */
-    padding: 15px;
-    background-color: var(--color-accent);
-    border-radius: 10px;
-    box-shadow: var(--box-shadow-medium);
-    text-align: center;
-    font-size: 0.9em;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-#catFact.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* --- Blog Preview Section --- */
-.blog-preview {
-    text-align: center;
-    margin-bottom: var(--spacing-large);
-}
-
-.blog-preview h3 {
-    font-size: 1.4em;
-    margin-bottom: var(--spacing-medium);
-}
-
-.blog-posts {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--spacing-medium);
-}
-
-.blog-posts article {
+.blog-snippet {
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow-medium);
-    padding: var(--spacing-medium);
-    width: calc(33.33% - var(--spacing-medium)); /* Adjust width for responsiveness */
-    min-width: 250px; /* Ensure a minimum width */
-    transition: transform 0.2s ease-in-out;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-small);
+    margin-bottom: 25px;
+    transition: transform var(--transition-fast);
 }
 
-.blog-posts article:hover {
+.blog-snippet:hover {
     transform: translateY(-5px);
 }
 
-.blog-posts h4 {
-    margin-bottom: var(--spacing-small);
+.blog-snippet h4 {
+    margin-bottom: 15px;
+    font-size: 1.3em;
 }
 
-.blog-posts h4 a {
-    text-decoration: none;
-    color: inherit;
+.blog-snippet a.fun-button {
+    margin-top: 15px;
 }
 
-.blog-posts p {
-    font-size: 0.95em;
-    line-height: 1.5;
-    color: var(--color-dark-grey);
-}
-
-.blog-preview .blog-link {
-    margin-top: var(--spacing-large);
-}
-
-.blog-preview .blog-link a {
-    display: inline-block;
-    padding: var(--spacing-small) var(--spacing-medium);
-    background-color: var(--color-primary);
-    color: var(--color-secondary);
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.blog-preview .blog-link a:hover {
-    background-color: #376381; /* A slightly darker shade of primary */
-}
-
-/* --- Footer Styles --- */
-footer {
-    background-color: var(--color-footer-bg);
-    color: var(--color-footer-text);
+/* --- Fun Footer --- */
+.fun-footer {
+    background-color: var(--bg-dark);
+    color: var(--text-secondary);
     text-align: center;
-    padding: var(--spacing-small) 0;
-    width: 100%;
-    margin-top: auto;
+    padding: 30px 0;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
 }
 
-footer .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.fun-footer::before {
+    content: '💖';
+    position: absolute;
+    top: 10px;
+    left: 10%;
+    font-size: 1.5em;
+    opacity: 0.5;
+    animation: spin 4s linear infinite;
 }
 
-footer .footer-nav ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    margin-bottom: var(--spacing-small);
+.fun-footer::after {
+    content: '😻';
+    position: absolute;
+    bottom: 10px;
+    right: 10%;
+    font-size: 1.5em;
+    opacity: 0.5;
+    animation: spin 6s linear infinite reverse;
 }
 
-footer .footer-nav li {
-    margin: 0 var(--spacing-small);
-}
-
-footer .footer-nav a {
-    color: var(--color-footer-text);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-footer .footer-nav a:hover {
-    color: var(--color-accent);
-}
-
-/* --- Media Queries (Responsiveness) --- */
-@media (max-width: 1024px) { /* Adjustments for larger tablets/small laptops */
-    .blog-posts article {
-        width: calc(50% - var(--spacing-medium));
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
 
-@media (max-width: 768px) { /* Tablets and smaller */
+/* --- Media Queries for Responsiveness --- */
+@media (max-width: 768px) {
     .container {
-        padding: 0 var(--spacing-small);
+        width: 95%;
+        padding: 15px;
     }
-
-    header h1 {
-        font-size: 2em;
+    .fun-header {
+        padding: 30px 0;
     }
-
-    .main-nav .container ul {
+    .fun-header h1 {
+        font-size: 2.8em;
+    }
+    .fun-nav .container ul {
         flex-direction: column;
         align-items: center;
     }
-
-    .main-nav .container li {
-        margin: var(--spacing-small) 0;
+    .fun-nav .container li {
+        margin: 10px 0;
     }
-
-    .blog-posts article {
-        width: 100%;
+    .hero-fun {
+        padding: 40px 20px;
     }
-}
-
-@media (max-width: 480px) { /* Mobile */
-    header h1 {
-        font-size: 1.8em;
+    .hero-fun h2 {
+        font-size: 2.5em;
     }
-
-    .hero h2 {
-        font-size: 1.8em;
-    }
-
-    .record-button {
-        width: 80px;
-        height: 80px;
-        font-size: 1.5em;
-    }
-
     .context-selector {
         flex-direction: column;
         align-items: flex-start;
     }
-
     .context-selector label {
-        margin-bottom: var(--spacing-small);
+        margin-bottom: 10px;
+        margin-right: 0;
     }
-                 }
+    .fun-translation-area {
+        padding: 20px;
+    }
+    .blog-preview-fun {
+        margin-top: 40px;
+    }
+ }
