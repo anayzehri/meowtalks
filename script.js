@@ -1,64 +1,64 @@
 const TRANSLATION_MESSAGES = {
     hungry: {
-        meow1: { text: "My bowl is tragically empty!", confidence: 85, frequencyRange: [200, 400], intensity: 0.7, duration: 0.5 },
-        meow2: { text: "Feed me, I'm wasting away!", confidence: 70, frequencyRange: [250, 450], intensity: 0.8, duration: 0.8 },
-        meow3: { text: "Is that food? For me?", confidence: 60, frequencyRange: [300, 500], intensity: 0.5, duration: 0.3 },
-        meow4: { text: "I'm famished! Where is my dinner?", confidence: 90, frequencyRange: [350, 550], intensity: 0.9, duration: 0.7 },
-        meow5: { text: "A little nibble? Please?", confidence: 50, frequencyRange: [300, 500], intensity: 0.4, duration: 0.6 },
+        meow1: { text: "Likely indicating hunger. Is their food bowl empty or are they anticipating a meal?", confidence: 85, frequencyRange: [200, 400], intensity: 0.7, duration: 0.5, bodyLanguageHint: "May rub against your legs or lead you to the food bowl." },
+        meow2: { text: "Stronger indication of hunger. Consider the time of day and their feeding schedule.", confidence: 70, frequencyRange: [250, 450], intensity: 0.8, duration: 0.8, bodyLanguageHint: "May be more persistent and vocal." },
+        meow3: { text: "Possibly a demand for food. Evaluate if you've recently fed them or if they are seeking attention in this context.", confidence: 60, frequencyRange: [300, 500], intensity: 0.5, duration: 0.3, bodyLanguageHint: "May stare intently at you or the food area." },
+        meow4: { text: "High probability of hunger. Ensure they have access to fresh water as well.", confidence: 90, frequencyRange: [350, 550], intensity: 0.9, duration: 0.7, bodyLanguageHint: "May vocalize near their food storage or usual feeding spot." },
+        meow5: { text: "Could be a plea for a treat or a small snack. Be mindful of overfeeding.", confidence: 50, frequencyRange: [300, 500], intensity: 0.4, duration: 0.6, bodyLanguageHint: "May look expectantly at you." },
     },
     affection: {
-        purr1: { text: "you may pet me.", confidence: 90, frequencyRange: [25, 150], intensity: 0.3, duration: 2 },
-        purr2: { text: "tolerate your affection.", confidence: 75, frequencyRange: [50, 120], intensity: 0.4, duration: 1.5 },
-        purr3: { text: "Head scratches are acceptable.", confidence: 65, frequencyRange: [60, 130], intensity: 0.5, duration: 1.2 },
-        purr4: { text: "More chin rubs please?", confidence: 80, frequencyRange: [30, 100], intensity: 0.4, duration: 1.3 },
-        purr5: { text: "you may sit near me.", confidence: 50, frequencyRange: [70, 140], intensity: 0.3, duration: 1.1 },
+        purr1: { text: "Expressing contentment and seeking social interaction. This is a good sign!", confidence: 90, frequencyRange: [25, 150], intensity: 0.3, duration: 2, bodyLanguageHint: "Often accompanied by rubbing, kneading, or slow blinks." },
+        purr2: { text: "Enjoying the attention. Continue with gentle petting if they seem receptive.", confidence: 75, frequencyRange: [50, 120], intensity: 0.4, duration: 1.5, bodyLanguageHint: "Ears are likely forward, and their body may be relaxed." },
+        purr3: { text: "Appreciating the interaction. Observe their body language for signs of overstimulation.", confidence: 65, frequencyRange: [60, 130], intensity: 0.5, duration: 1.2, bodyLanguageHint: "Tail is usually still or gently swaying." },
+        purr4: { text: "Likely enjoying chin or head scratches, areas where they can't groom themselves easily.", confidence: 80, frequencyRange: [30, 100], intensity: 0.4, duration: 1.3, bodyLanguageHint: "May lean into your touch." },
+        purr5: { text: "Feeling comfortable in your presence. This indicates a level of trust.", confidence: 50, frequencyRange: [70, 140], intensity: 0.3, duration: 1.1, bodyLanguageHint: "May be relaxed and even dozing off." },
     },
     play: {
-        meow1: { text: "red dot! Engage!", confidence: 80, frequencyRange: [500, 700], intensity: 0.7, duration: 0.5 },
-        meow2: { text: "toy mouse is my enemy!", confidence: 70, frequencyRange: [600, 800], intensity: 0.6, duration: 0.7 },
-        meow3: { text: "Play with me!", confidence: 60, frequencyRange: [550, 750], intensity: 0.8, duration: 0.6 },
-        meow4: { text: "zooming around!", confidence: 90, frequencyRange: [650, 850], intensity: 0.9, duration: 0.4 },
-        meow5: { text: "I must catch the stringy thing!", confidence: 80, frequencyRange: [450, 650], intensity: 0.7, duration: 0.5 },
+        meow1: { text: "Excited and ready to play! Offer an appropriate toy.", confidence: 80, frequencyRange: [500, 700], intensity: 0.7, duration: 0.5, bodyLanguageHint: "Pupils may be dilated, and they might be in a play crouch." },
+        meow2: { text: "Engaged in play. Ensure the play is appropriate and not aggressive.", confidence: 70, frequencyRange: [600, 800], intensity: 0.6, duration: 0.7, bodyLanguageHint: "May pounce, chase, or bat at toys." },
+        meow3: { text: "Seeking interaction through play. This is important for their physical and mental well-being.", confidence: 60, frequencyRange: [550, 750], intensity: 0.8, duration: 0.6, bodyLanguageHint: "May bring you a toy or tap your leg." },
+        meow4: { text: "Expressing energy and a desire for physical activity. Provide opportunities for exercise.", confidence: 90, frequencyRange: [650, 850], intensity: 0.9, duration: 0.4, bodyLanguageHint: "May exhibit zoomies or playful swats." },
+        meow5: { text: "Focused on a 'prey' object. Allow them to engage in natural hunting behaviors.", confidence: 80, frequencyRange: [450, 650], intensity: 0.7, duration: 0.5, bodyLanguageHint: "May stalk, chase, or bat at a toy or object." },
     },
     demand: {
-        meow1: { text: "Open the door!", confidence: 95, frequencyRange: [800, 1000], intensity: 0.9, duration: 0.5 },
-        meow2: { text: "I require attention!", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.7 },
-        meow3: { text: "Why is this door closed?!", confidence: 65, frequencyRange: [700, 900], intensity: 0.7, duration: 0.6 },
-        meow4: { text: "waiting for my request to be fulfilled!", confidence: 90, frequencyRange: [850, 1050], intensity: 0.9, duration: 0.8 },
-        meow5: { text: "I said OPEN it!", confidence: 90, frequencyRange: [750, 950], intensity: 0.9, duration: 0.4 },
+        meow1: { text: "Strongly requesting access or attention. Consider what they might want at this location.", confidence: 95, frequencyRange: [800, 1000], intensity: 0.9, duration: 0.5, bodyLanguageHint: "May scratch at the door or look back at you expectantly." },
+        meow2: { text: "Seeking your immediate attention. Try to understand the context – are they bored, anxious, or needing something?", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.7, bodyLanguageHint: "May weave through your legs or meow persistently." },
+        meow3: { text: "Expressing frustration or impatience. Assess the situation to understand the cause of their demand.", confidence: 65, frequencyRange: [700, 900], intensity: 0.7, duration: 0.6, bodyLanguageHint: "May have a tense posture or flicking tail." },
+        meow4: { text: "Persistently seeking something. Be careful not to inadvertently reinforce unwanted demanding behaviors.", confidence: 90, frequencyRange: [850, 1050], intensity: 0.9, duration: 0.8, bodyLanguageHint: "May vocalize loudly and frequently." },
+        meow5: { text: "A very insistent demand. If this is unusual, consider if there's an urgent need (e.g., needing the litter box).", confidence: 90, frequencyRange: [750, 950], intensity: 0.9, duration: 0.4, bodyLanguageHint: "May display agitated behavior." },
     },
     warning: {
-        hiss1: { text: "Back away slowly.", confidence: 90, frequencyRange: [1000, 1200], intensity: 0.9, duration: 0.3 },
-        hiss2: { text: "I am displeased.", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.5 },
-        hiss3: { text: "That is MY spot!", confidence: 70, frequencyRange: [1100, 1300], intensity: 0.7, duration: 0.6 },
-        hiss4: { text: "You dare come closer?", confidence: 85, frequencyRange: [1050, 1250], intensity: 0.85, duration: 0.4 },
-        hiss5: { text: "Leave me alone!!", confidence: 95, frequencyRange: [950, 1150], intensity: 0.95, duration: 0.4 }
+        hiss1: { text: "Clear sign of fear, aggression, or defensiveness. Give them space immediately.", confidence: 90, frequencyRange: [1000, 1200], intensity: 0.9, duration: 0.3, bodyLanguageHint: "Ears flattened, back arched, fur standing on end." },
+        hiss2: { text: "Expressing displeasure and a desire for the interaction to stop. Withdraw your attention.", confidence: 80, frequencyRange: [900, 1100], intensity: 0.8, duration: 0.5, bodyLanguageHint: "May be accompanied by growling or showing teeth." },
+        hiss3: { text: "Protecting their territory or resources. Identify and address potential stressors.", confidence: 70, frequencyRange: [1100, 1300], intensity: 0.7, duration: 0.6, bodyLanguageHint: "May stare intensely at the perceived threat." },
+        hiss4: { text: "Feeling threatened. Avoid further interaction and allow them to calm down.", confidence: 85, frequencyRange: [1050, 1250], intensity: 0.85, duration: 0.4, bodyLanguageHint: "Body may be tense and low to the ground." },
+        hiss5: { text: "Extremely agitated and likely to act defensively. Do not approach.", confidence: 95, frequencyRange: [950, 1150], intensity: 0.95, duration: 0.4, bodyLanguageHint: "May be crouched and ready to strike or flee." }
     },
     default: {
-        meow1: { text: "Mrow? (Context unclear)", confidence: 50, frequencyRange: [400, 600], intensity: 0.4, duration: 0.4 },
+        meow1: { text: "General communication. The meaning is unclear without more context. Observe their surroundings and body language.", confidence: 50, frequencyRange: [400, 600], intensity: 0.4, duration: 0.4, bodyLanguageHint: "Pay attention to their posture, ear position, and tail movements." },
     },
 };
 
 const CAT_FACTS = [
-    "A cat's purr vibrates at a frequency of 25 to 150 Hertz and can aid in healing.",
-    "Cats can make over 100 different vocalizations and use meows to communicate with humans, not other cats.",
-    "The average cat sleeps around 12-16 hours per day, conserving energy for hunting.",
-    "Cats have a third eyelid that helps to keep their eyes moist and protected.",
-    "A cat can jump up to six times its height, thanks to its powerful leg muscles.",
-    "Cats can rotate their ears 180 degrees, allowing them to locate sounds with precision.",
-    "Cats have a special reflective layer behind their retinas called the tapetum lucidum which helps them see in low light conditions.",
-    "The nose print of a cat is unique, much like a human fingerprint.",
-    "Cats use their whiskers to navigate and sense changes in the environment.",
-    "Domestic cats have been living alongside humans for over 9,500 years.",
-    "Some cats have a genetic mutation that causes them to be born with extra toes, known as polydactyly.",
-    "Cats often knead when they're happy, a behavior that stems from kittenhood when they knead their mother's belly to stimulate milk production.",
+    "A cat's purr vibrates at a frequency of 25 to 150 Hertz, which research suggests can promote tissue regeneration and healing.",
+    "Cats primarily use meows to communicate with humans. They communicate with other cats mainly through scent, body language, and hisses/growls.",
+    "The average cat sleeps around 12-16 hours per day. This is a natural behavior related to their predatory instincts.",
+    "Cats have a third eyelid (nictitating membrane) that helps keep their eyes moist and protected. Its visibility can sometimes indicate health issues.",
+    "A cat can jump up to six times its height. This impressive ability is due to their strong leg muscles and flexible spine.",
+    "Cats can rotate their ears 180 degrees, allowing them to pinpoint the source of sounds with great accuracy.",
+    "The tapetum lucidum, a reflective layer behind a cat's retina, enhances their night vision.",
+    "A cat's nose print is unique, just like a human fingerprint.",
+    "Whiskers (vibrissae) are crucial for a cat's spatial awareness, helping them navigate tight spaces and sense changes in air currents.",
+    "The domestication of cats is believed to have started around 9,500 years ago, likely due to their ability to control rodent populations.",
+    "Polydactyly, the condition of having extra toes, is a genetic trait found in some cat populations.",
+    "Kneading, a behavior often displayed by happy cats, is thought to be a remnant of kittenhood when they knead their mother to stimulate milk flow. It can also be a way to mark territory with scent glands in their paws.",
 ];
 const LISTENING_MESSAGES = [
     "Listening intently...",
     "Analyzing feline vocalizations...",
     "Tuning into cat frequencies...",
     "Processing meows and purrs...",
-    "Detecting subtle purr-turbations...",
+    "Detecting subtle vocal nuances...",
 ];
 
 const ANALYSIS_MESSAGES = ["Analyzing meow...", "Decoding feline language...", "Identifying vocal patterns..."];
@@ -94,7 +94,6 @@ contextSelect.addEventListener('change', handleContextChange)
 function handleContextChange(e) {
     currentContext = e.target.value;
 }
-
 
 async function toggleRecording() {
     if(!isRecording){
@@ -184,7 +183,7 @@ function stopRecording() {
         displayTranslation();
         displayCatFact();
     } else {
-        translationOutput.textContent = "No cat detected. Try again.";
+        translationOutput.textContent = "No clear cat vocalization detected. Try again, ensuring the microphone is close to your cat.";
         translationOutput.classList.add("show");
     }
      removeAura()
@@ -195,17 +194,17 @@ function cycleListeningMessages() {
     listeningIndicator.textContent = LISTENING_MESSAGES[listeningMessageIndex];
 }
 
-
 function displayTranslation() {
      audioIntensity = calculateAudioIntensity(); // Get the average audio data
-  const assembledPhrase = assembleDynamicPhrase(audioIntensity);
-  translationOutput.textContent = assembledPhrase;
-  confidenceLevelDiv.textContent = `Mood Level: ${Math.round(audioIntensity * 100)}%`; // Display intensity
+  const translation = getTranslationBasedOnContextAndIntensity(currentContext, audioIntensity);
+  translationOutput.textContent = translation.text;
+  confidenceLevelDiv.textContent = `Likelihood: ${translation.confidence}%  ${translation.bodyLanguageHint ? 'Hint: ' + translation.bodyLanguageHint : ''}`; // Display confidence and body language hint
   translationOutput.classList.add("show");
   confidenceLevelDiv.classList.add("show");
-  speakTranslation(assembledPhrase, audioIntensity); // Pass in the audio intensity to manipulate sound
+  speakTranslation(translation.text, audioIntensity); // Pass in the audio intensity to manipulate sound
     animateAura(audioIntensity, currentContext);
 }
+
 function calculateAudioIntensity() {
   analyser.getByteTimeDomainData(dataArray);
     let sum = 0;
@@ -215,20 +214,23 @@ function calculateAudioIntensity() {
     return sum / (dataArray.length * 128);
 }
 
-function assembleDynamicPhrase(intensity) {
-  const categories = Object.keys(TRANSLATION_MESSAGES).filter(key => key !== 'default');
-  const numberOfParts = Math.max(1, Math.min(3, Math.round(intensity * 3))); // Adjust as needed for your desired mix
-  const parts = [];
-  for (let i = 0; i < numberOfParts; i++) {
-      const randomCategory = categories[Math.floor(Math.random() * categories.length)];
-      const messages = Object.values(TRANSLATION_MESSAGES[randomCategory]);
-      if(messages && messages.length > 0){
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-          parts.push(randomMessage.text);
-      }
-
+function getTranslationBasedOnContextAndIntensity(context, intensity) {
+    const messages = TRANSLATION_MESSAGES[context];
+    if (!messages) {
+        return TRANSLATION_MESSAGES.default.meow1; // Fallback
     }
-    return parts.join(' ');
+
+    // Sort messages by confidence (you could also incorporate frequency/duration analysis here for more accuracy)
+    const sortedMessages = Object.values(messages).sort((a, b) => b.confidence - a.confidence);
+
+    // Select a translation based on intensity (you can adjust these thresholds)
+    if (intensity > 0.75) {
+        return sortedMessages[0]; // High intensity, likely the most confident message
+    } else if (intensity > 0.4) {
+        return sortedMessages[1] || sortedMessages[0]; // Medium intensity
+    } else {
+        return sortedMessages[2] || sortedMessages[1] || sortedMessages[0]; // Lower intensity
+    }
 }
 
 function displayCatFact() {
