@@ -24,7 +24,7 @@
 
 /* --- Base Styles --- */
 body {
-    font-family: 'Arial', sans-serif; /* A more common and readable sans-serif */
+    font-family: 'Arial', sans-serif;
     margin: 0;
     background-color: var(--color-background);
     color: var(--color-text);
@@ -33,14 +33,14 @@ body {
     align-items: center;
     min-height: 100vh;
     overflow-x: hidden;
-    line-height: 1.6; /* Improved readability */
-    -webkit-font-smoothing: antialiased; /* Better font rendering for webkit browsers */
-    -moz-osx-font-smoothing: grayscale; /* Better font rendering for Firefox */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 html {
     overflow-x: hidden;
-    scroll-behavior: smooth; /* Enable smooth scrolling for anchor links */
+    scroll-behavior: smooth;
 }
 
 .container {
@@ -59,7 +59,7 @@ header {
     text-align: center;
     width: 100%;
     box-shadow: var(--box-shadow);
-    position: relative; /* For positioning tagline */
+    position: relative;
 }
 
 header .container {
@@ -70,7 +70,7 @@ header .container {
 
 header h1 {
     margin: 0;
-    font-size: 2.8em; /* Slightly larger and more prominent */
+    font-size: 2.8em;
     letter-spacing: -1px;
 }
 
@@ -87,7 +87,7 @@ header .tagline {
     font-size: 1.1em;
     margin-top: var(--spacing-small) / 2;
     font-style: italic;
-    color: rgba(var(--color-header-text-rgb), 0.8); /* Slightly lighter */
+    color: rgba(var(--color-header-text-rgb), 0.8);
 }
 
 /* --- Navigation Styles --- */
@@ -98,7 +98,7 @@ header .tagline {
 }
 
 .main-nav .container {
-    padding: 0; /* Remove container padding for full-width nav */
+    padding: 0;
 }
 
 .main-nav ul {
@@ -166,7 +166,7 @@ main {
 
 .hero .button:hover,
 .hero .button:focus {
-    background-color: #366486; /* Darker shade of primary */
+    background-color: #366486;
     transform: scale(1.03);
 }
 
@@ -191,13 +191,13 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative; /* For positioning aura */
-    transition: transform var(--transition-speed) ease-in-out; /* Smooth transition */
+    position: relative;
+    transition: transform var(--transition-speed) ease-in-out;
     margin-bottom: var(--spacing-medium);
 }
 
 .record-container.recording {
-    transform: translateY(-100px); /* Reduced upward movement */
+    transform: translateY(-100px);
 }
 
 .record-button {
@@ -205,7 +205,7 @@ main {
     color: var(--color-secondary);
     border: none;
     border-radius: 50%;
-    width: 120px; /* Slightly larger button */
+    width: 120px;
     height: 120px;
     font-size: 2.2em;
     cursor: pointer;
@@ -214,9 +214,9 @@ main {
     justify-content: center;
     box-shadow: var(--box-shadow-large);
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color var(--transition-speed) ease;
-    position: relative; /* For positioning aura */
-    z-index: 1; /* Ensure button is above the aura */
-    outline: none; /* Remove default focus outline */
+    position: relative;
+    z-index: 1;
+    outline: none;
 }
 
 .record-button::before {
@@ -329,7 +329,7 @@ main {
     padding: 10px 15px;
     border-radius: var(--border-radius);
     border: 1px solid var(--color-grey);
-    appearance: none; /* Remove default arrow in some browsers */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background-color: #fff;
@@ -346,7 +346,7 @@ main {
     display: flex;
     align-items: center;
     flex-direction: column;
-    position: relative; /* For positioning aura */
+    position: relative;
 }
 
 #analysisMessage {
@@ -386,7 +386,7 @@ main {
     transform: translateY(20px);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
     margin-bottom: 5px;
-    min-height: 60px; /* Ensure some height for content */
+    min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -410,22 +410,22 @@ main {
 }
 
 .meow-type-placeholder {
-    font-size: 3em; /* Make the emoji larger */
-    color: var(--color-primary); /* Use primary color for more emphasis */
+    font-size: 3em;
+    color: var(--color-primary);
     transition: transform 0.3s ease-in-out;
     position: relative;
-    z-index: 1; /* Ensure text is above potential background */
+    z-index: 1;
     padding: 10px;
     margin: 10px;
-    border-radius: 50%; /* Make it circular */
-    background-color: var(--color-light-grey); /* Light background */
+    border-radius: 50%;
+    background-color: var(--color-light-grey);
     opacity: 0;
     transition: opacity 0.5s ease-out, transform 0.3s ease-in-out;
 }
 
 .meow-type-placeholder.show {
     opacity: 1;
-    transform: scale(1.1); /* Slightly scale up on show */
+    transform: scale(1.1);
 }
 
 /* --- Cat Facts Section --- */
@@ -541,7 +541,7 @@ main {
 
 .blog-link a:hover,
 .blog-link a:focus {
-    background-color: #e0c193; /* Darker shade of accent */
+    background-color: #e0c193;
     transform: scale(1.03);
 }
 
@@ -561,7 +561,9 @@ footer .container {
     align-items: center;
     flex-wrap: wrap;
 }
-
+footer p {
+ margin: 0;
+}
 footer .footer-nav ul {
     list-style: none;
     padding: 0;
@@ -585,7 +587,89 @@ footer .footer-nav a:hover,
 footer .footer-nav a:focus {
     color: var(--color-accent);
 }
+/* --- Blog Specific Styles --- */
+.blog-main {
+  flex-grow: 1;
+  padding: var(--spacing-large) 0;
+}
 
+.blog-main .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.blog-main .blog-posts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-medium);
+  width: 100%;
+}
+
+.blog-main .blog-post {
+    padding: var(--spacing-medium);
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium);
+    transition: transform 0.2s ease-in-out;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.blog-main .blog-post:hover {
+    transform: scale(1.02);
+}
+.blog-main .blog-post a {
+  text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+}
+.blog-main .blog-post h2 {
+  margin-bottom: var(--spacing-small);
+   font-size: 1.4em;
+}
+.blog-main .blog-post p {
+  color: var(--color-dark-grey);
+    font-size: 0.95em;
+    line-height: 1.5;
+}
+.blog-main .blog-post-content {
+  max-width: 90%;
+}
+.blog-main .blog-post-content h2 {
+  font-size: 1.8em;
+    margin-bottom: var(--spacing-medium);
+    color: var(--color-primary);
+    text-align: center;
+}
+.blog-main .blog-post-content h3 {
+     font-size: 1.5em;
+    margin-top: var(--spacing-large);
+    margin-bottom: var(--spacing-medium);
+    color: var(--color-primary);
+
+}
+.blog-main .blog-post-content p {
+  color: var(--color-dark-grey);
+  line-height: 1.7;
+  margin-bottom: var(--spacing-medium);
+}
+.blog-main .blog-post-content ul {
+  margin-bottom: var(--spacing-medium)
+}
+.blog-main .blog-post-content li{
+   margin-bottom: var(--spacing-small);
+  color: var(--color-dark-grey);
+    line-height: 1.5;
+}
+.blog-main .blog-post-content img {
+    max-width: 100%; /* Make images responsive */
+    height: auto; /* Maintain aspect ratio */
+    margin: var(--spacing-medium) 0;
+  border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-medium);
+}
 /* --- Media Queries (Responsiveness) --- */
 @media (max-width: 1024px) {
     .container {
@@ -593,7 +677,7 @@ footer .footer-nav a:focus {
     }
 }
 
-@media (max-width: 768px) { /* Tablets and smaller */
+@media (max-width: 768px) {
     header h1 {
         font-size: 2.4em;
     }
@@ -646,9 +730,12 @@ footer .footer-nav a:focus {
     footer .footer-nav ul {
         flex-direction: column;
     }
+  .blog-main .blog-posts {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (max-width: 480px) { /* Mobile */
+@media (max-width: 480px) {
     header h1 {
         font-size: 2em;
     }
@@ -658,4 +745,72 @@ footer .footer-nav a:focus {
         height: 80px;
         font-size: 1.5em;
     }
-    }
+}
+
+/* --- Aura Element Styles --- */
+.aura-shape {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    background-color: var(--color-accent);
+    opacity: 0.3;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.aura-shape.square {
+    border-radius: 10px;
+}
+
+.aura-shape.triangle {
+    border-radius: 0;
+    width: 0;
+    height: 0;
+    border-left: 75px solid transparent;
+    border-right: 75px solid transparent;
+    border-bottom: 150px solid var(--color-accent);
+    background-color: transparent;
+}
+
+.aura-shape.star {
+    --star-color: var(--color-accent);
+    position: absolute;
+    display: block;
+    width: 0px;
+    height: 0px;
+    border-right: 75px solid transparent;
+    border-bottom: 50px solid var(--star-color);
+    border-left: 75px solid transparent;
+    transform: translate(-50%, -50%) rotate(35deg);
+    opacity: 0.6;
+}
+.aura-shape.star:before {
+    border-bottom: 55px solid var(--star-color);
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -32px;
+    left: -58px;
+    display: block;
+    content: '';
+    transform: rotate(-35deg);
+}
+.aura-shape.star:after {
+    position: absolute;
+    display: block;
+    top: 0px;
+    left: -75px;
+    width: 0px;
+    height: 0px;
+    border-right: 75px solid transparent;
+    border-bottom: 50px solid var(--star-color);
+    border-left: 75px solid transparent;
+    transform: rotate(-70deg);
+    content: '';
+}
